@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.admin-layout {
+  display: flex;
+
+  height: 100vh;
+
+  font-family: Arial, sans-serif;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 260px;
+
+  background: #0f172a;
+  color: white;
+
+  padding: 30px 20px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 50px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  background: white;
+  color: #0f172a;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.logo-section h2 {
+  font-size: 28px;
+}
+
+/* MENU */
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-item {
+  padding: 14px 18px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.menu-item.active {
+  background: white;
+  color: #0f172a;
+
+  font-weight: bold;
+}
+
+/* MAIN */
+
+.main-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+
+.topbar {
+  height: 80px;
+
+  background: white;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+}
+
+.topbar h1 {
+  font-size: 28px;
+}
+
+.admin-avatar {
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+
+  background: #0f172a;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* PAGE */
+
+.page-content {
+  flex: 1;
+
+  padding: 30px;
+
+  background: #f8fafc;
+}

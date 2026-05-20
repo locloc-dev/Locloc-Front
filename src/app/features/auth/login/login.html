@@ -1,0 +1,193 @@
+<div class="login-page">
+
+  <!-- LEFT SIDE -->
+  <div class="left-section">
+
+    <div class="overlay"></div>
+
+    <div class="branding">
+
+      <span class="small-title">
+        LOCLOC
+      </span>
+
+      <h1>
+        Find a place that
+        <br>
+        actually feels like home.
+      </h1>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-section">
+
+    <div class="login-box">
+
+      <!-- LOGO -->
+      <div class="logo-section">
+
+        <div class="logo">
+          L
+        </div>
+
+        <div>
+
+          <h2>
+            LocLoc
+          </h2>
+
+          <p>
+            Property marketplace
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- TITLE -->
+      <h1 class="welcome-title">
+        Welcome back
+      </h1>
+
+      <p class="subtitle">
+        Sign in to manage your listings, requests, and deals.
+      </p>
+
+      <!-- TABS -->
+      <div class="tabs">
+
+        <button type="button" class="active">
+          Sign in
+        </button>
+
+        <button type="button" (click)="goToRegister()">
+          Register
+        </button>
+
+      </div>
+
+      <!-- FORM -->
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+      >
+
+        <!-- EMAIL -->
+        <div class="input-group">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+
+          <div
+            class="error"
+            *ngIf="
+              loginForm.get('email')?.touched &&
+              loginForm.get('email')?.invalid
+            "
+          >
+
+            <span
+              *ngIf="
+                loginForm.get('email')?.errors?.['required']
+              "
+            >
+              Email is required
+            </span>
+
+            <span
+              *ngIf="
+                loginForm.get('email')?.errors?.['email']
+              "
+            >
+              Invalid email format
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-group">
+
+          <label>Password</label>
+
+          <div class="password-wrapper">
+
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Enter your password"
+            />
+
+            <button
+              type="button"
+              class="toggle-password"
+              (click)="showPassword = !showPassword"
+            >
+
+              {{ showPassword ? '🙈' : '👁️' }}
+
+            </button>
+
+          </div>
+
+          <div
+            class="error"
+            *ngIf="
+              loginForm.get('password')?.touched &&
+              loginForm.get('password')?.invalid
+            "
+          >
+
+            <span
+              *ngIf="
+                loginForm.get('password')?.errors?.['required']
+              "
+            >
+              Password is required
+            </span>
+
+          </div>
+
+        </div>
+
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-password">
+
+          <a href="#">
+            Forgot?
+          </a>
+
+        </div>
+
+        <!-- SUBMIT -->
+        <button
+          type="submit"
+          class="login-btn"
+          [disabled]="isLoading"
+        >
+
+          {{
+            isLoading
+              ? 'Signing in...'
+              : 'Sign in'
+          }}
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+

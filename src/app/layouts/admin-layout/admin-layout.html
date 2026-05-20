@@ -1,0 +1,80 @@
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-section">
+
+      <div class="logo">
+        A
+      </div>
+
+      <h2>
+        Admin
+      </h2>
+
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item active">
+        Dashboard
+      </a>
+
+      <a class="menu-item">
+        Users
+      </a>
+
+      <a class="menu-item">
+        Properties
+      </a>
+
+      <a class="menu-item">
+        Reports
+      </a>
+
+      <a class="menu-item">
+        Payments
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <h1>
+        Admin Dashboard
+      </h1>
+
+      <div class="topbar-right">
+
+        <button
+          class="logout-btn"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+
+        <div class="profile">
+          ADMIN
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <main class="page-content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
+
+</div>

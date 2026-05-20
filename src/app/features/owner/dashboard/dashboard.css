@@ -1,0 +1,13 @@
+.dashboard-page h1 {
+  font-size: 42px;
+
+  color: #0f172a;
+
+  margin-bottom: 10px;
+}
+
+.dashboard-page p {
+  color: #64748b;
+
+  font-size: 18px;
+}

@@ -1,0 +1,80 @@
+<div class="owner-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-section">
+
+      <div class="logo">
+        O
+      </div>
+
+      <h2>
+        Owner
+      </h2>
+
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item active">
+        Dashboard
+      </a>
+
+      <a class="menu-item">
+        My Properties
+      </a>
+
+      <a class="menu-item">
+        Requests
+      </a>
+
+      <a class="menu-item">
+        Deals
+      </a>
+
+      <a class="menu-item">
+        Payments
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <h1>
+        Owner Dashboard
+      </h1>
+
+      <div class="topbar-right">
+
+        <button
+          class="logout-btn"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+
+        <div class="profile">
+          OWNER
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <main class="page-content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
+
+</div>

@@ -1,0 +1,75 @@
+<div class="layout-container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-section">
+
+      <div class="logo">
+        L
+      </div>
+
+      <h2>LocLoc</h2>
+
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item active">
+        Listings
+      </a>
+
+      <a class="menu-item">
+        My requests
+      </a>
+
+      <a class="menu-item">
+        Deals
+      </a>
+
+      <a class="menu-item">
+        Settings
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+      <input
+        type="text"
+        placeholder="Search listings..."
+      />
+
+      <div class="topbar-right">
+
+        <button
+          class="logout-btn"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+
+        <div class="profile">
+          USER
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content">
+
+      <router-outlet></router-outlet>
+
+    </main>
+
+  </div>
+
+</div>

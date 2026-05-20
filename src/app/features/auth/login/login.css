@@ -1,0 +1,266 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* LEFT */
+
+.left-section {
+  flex: 1;
+  position: relative;
+
+  background-image: url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85');
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.branding {
+  position: absolute;
+  bottom: 60px;
+  left: 50px;
+
+  color: white;
+  z-index: 2;
+}
+
+.small-title {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.branding h1 {
+  margin-top: 15px;
+  font-size: 52px;
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+/* RIGHT */
+
+.right-section {
+  width: 50%;
+  background: #faf8f5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 450px;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+
+  background: #0f172a;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.logo-section h2 {
+  font-size: 24px;
+}
+
+.logo-section p {
+  color: gray;
+  margin-top: 4px;
+}
+
+.welcome-title {
+  font-size: 56px;
+  margin-bottom: 15px;
+  color: #0f172a;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+/* TABS */
+
+.tabs {
+  display: flex;
+  margin-bottom: 35px;
+
+  border: 1px solid #ddd;
+  border-radius: 40px;
+  overflow: hidden;
+
+  width: fit-content;
+}
+
+.tabs button {
+  border: none;
+  background: transparent;
+
+  padding: 12px 35px;
+  cursor: pointer;
+
+  font-size: 16px;
+}
+
+.tabs .active {
+  background: #0f172a;
+  color: white;
+}
+
+/* INPUTS */
+
+.input-group {
+  margin-bottom: 25px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 18px;
+
+  border-radius: 14px;
+  border: 2px solid #d4d4d4;
+
+  font-size: 16px;
+
+  background: white;
+  transition: 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #3454ff;
+
+  box-shadow: 0 0 0 4px rgba(52, 84, 255, 0.15);
+}
+
+/* FORGOT */
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
+}
+
+.forgot-password a {
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* BUTTON */
+
+.login-btn {
+  width: 100%;
+
+  padding: 18px;
+  border: none;
+
+  border-radius: 16px;
+
+  background: #3454ff;
+  color: white;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+  .left-section {
+    display: none;
+  }
+
+  .right-section {
+    width: 100%;
+    padding: 40px;
+  }
+
+  .welcome-title {
+    font-size: 42px;
+  }
+}
+
+.error {
+  margin-top: 8px;
+
+  color: #ef4444;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+
+  right: 15px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 18px;
+}
