@@ -1,42 +1,25 @@
 <div class="admin-layout">
 
+  <!-- BACKDROP (mobile only, when sidebar open) -->
+  @if (sidebarOpen()) {
+    <div class="backdrop" (click)="closeSidebar()"></div>
+  }
+
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" [class.open]="sidebarOpen()">
 
     <div class="logo-section">
-
-      <div class="logo">
-        A
-      </div>
-
-      <h2>
-        Admin
-      </h2>
-
+      <div class="logo">A</div>
+      <h2>Admin</h2>
     </div>
 
-    <nav class="menu">
-
-      <a class="menu-item active">
-        Dashboard
-      </a>
-
-      <a class="menu-item">
-        Users
-      </a>
-
-      <a class="menu-item">
-        Properties
-      </a>
-
-      <a class="menu-item">
-        Reports
-      </a>
-
-      <a class="menu-item">
-        Payments
-      </a>
-
+    <nav class="menu" (click)="closeSidebar()">
+      <a class="menu-item" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      <a class="menu-item" routerLink="/admin/users" routerLinkActive="active">Users</a>
+      <a class="menu-item" routerLink="/admin/properties" routerLinkActive="active">Properties</a>
+      <a class="menu-item" routerLink="/admin/reports" routerLinkActive="active">Reports</a>
+      <a class="menu-item" routerLink="/admin/payments" routerLinkActive="active">Payments</a>
+      <a class="menu-item" routerLink="/admin/listings" routerLinkActive="active">Annonces</a>
     </nav>
 
   </aside>
@@ -47,32 +30,21 @@
     <!-- TOPBAR -->
     <header class="topbar">
 
-      <h1>
-        Admin Dashboard
-      </h1>
+      <div class="topbar-left">
+        <button class="hamburger" (click)="toggleSidebar()" aria-label="Toggle menu">☰</button>
+        <h1>Admin Dashboard</h1>
+      </div>
 
       <div class="topbar-right">
-
-        <button
-          class="logout-btn"
-          (click)="logout()"
-        >
-          Logout
-        </button>
-
-        <div class="profile">
-          ADMIN
-        </div>
-
+        <button class="logout-btn" (click)="logout()">Logout</button>
+        <div class="profile">ADMIN</div>
       </div>
 
     </header>
 
-    <!-- CONTENT -->
+    <!-- CONTENT (les pages s'affichent ici) -->
     <main class="page-content">
-
       <router-outlet></router-outlet>
-
     </main>
 
   </div>

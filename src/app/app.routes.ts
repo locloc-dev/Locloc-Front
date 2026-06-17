@@ -1,39 +1,65 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { adminGuard } from './core/guards/admin-guard';
+import { ownerGuard } from './core/guards/owner-guard';
 
 export const routes: Routes = [
-  /* AUTH */
+  /* OWNER */
   {
     path: 'owner',
 
-    loadComponent: () =>
-      import('./layouts/owner-layout/owner-layout')
-        .then(m => m.OwnerLayout),
+    canActivate: [ownerGuard],
+
+    loadComponent: () => import('./layouts/owner-layout/owner-layout').then((m) => m.OwnerLayout),
 
     children: [
-
       {
-        path: 'dashboard',
+        path: 'listings',
+        loadComponent: () =>
+          import('./features/owner/listing/my-listings').then(m => m.MyListings)
+      },
+      {
+        path: 'new-listing',
+        loadComponent: () =>
+          import('./features/owner/new-listing/new-listing').then(m => m.NewListing)
+      },
+      {
+        path: 'requests',
 
         loadComponent: () =>
-          import('./features/owner/dashboard/dashboard')
-            .then(m => m.Dashboard)
+          import('./features/owner/owner-requests/owner-requests')
+            .then(m => m.OwnerRequests)
       },
 
       {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/owner/dashboard/dashboard').then(m => m.Dashboard)
+      },
+      {
+        path: 'ads',
+        loadComponent: () =>
+          import('./features/owner/my-ads/my-ads').then(m => m.MyAds)
+      },
+      {
+        path: 'new-ad',
+        loadComponent: () =>
+          import('./features/owner/new-listing-ad/new-listing-ad').then(m => m.NewListingAd)
+      },
+      {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'listings',
         pathMatch: 'full'
       }
-
-    ]
+    ],
   },
+
   {
     path: 'login',
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
 
+  /* ADMIN */
   {
     path: 'admin',
 
@@ -44,11 +70,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-
         loadComponent: () =>
           import('./features/admin/dashboard/dashboard').then((m) => m.Dashboard),
       },
-
+      {
+        path: 'properties',
+        loadComponent: () =>
+          import('./features/admin/properties/properties').then((m) => m.Properties),
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./features/admin/users/users').then((m) => m.Users),
+      },
+      {
+        path: 'listings',
+        loadComponent: () =>
+          import('./features/admin/listings/admin-listings').then((m) => m.AdminListings),
+      },
       {
         path: '',
         redirectTo: 'dashboard',
@@ -62,8 +100,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
   },
 
-  /* MAIN APP LAYOUT */
-
+  /* TENANT / MAIN APP LAYOUT */
   {
     path: 'app',
 
@@ -74,10 +111,19 @@ export const routes: Routes = [
     children: [
       {
         path: 'listings',
-
-        loadComponent: () => import('./features/listings/listings').then((m) => m.Listings),
+        loadComponent: () =>
+          import('./features/listings/listings').then((m) => m.Listings),
       },
-
+      {
+        path: 'listings/:id',
+        loadComponent: () =>
+          import('./features/listings/detail/property-detail').then((m) => m.PropertyDetail),
+      },
+      {
+        path: 'requests',
+        loadComponent: () =>
+          import('./features/requests/my-requests').then((m) => m.MyRequests),
+      },
       {
         path: '',
         redirectTo: 'listings',
@@ -87,7 +133,6 @@ export const routes: Routes = [
   },
 
   /* DEFAULT */
-
   {
     path: '',
     redirectTo: 'login',

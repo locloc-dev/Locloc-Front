@@ -1,0 +1,83 @@
+<div class="listings-page">
+
+  <div class="page-head">
+    <div>
+      <h1>My listings</h1>
+      <p>Manage your published places, drafts, and pending approvals.</p>
+    </div>
+    <a class="btn primary" routerLink="/owner/new-listing">+ New listing</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">LIVE</span>
+        <span class="stat-value">{{ liveCount() }}</span>
+        <span class="stat-sub approved">Approved</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">PENDING REVIEW</span>
+        <span class="stat-value">{{ pendingCount() }}</span>
+        <span class="stat-sub pending">En attente</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">REJECTED</span>
+        <span class="stat-value">{{ rejectedCount() }}</span>
+        <span class="stat-sub rejected">Rejetées</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">TOTAL</span>
+        <span class="stat-value">{{ listings().length }}</span>
+        <span class="stat-sub">Annonces</span>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Listing</th>
+          <th>Ville</th>
+          <th>Réf</th>
+          <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (item of listings(); track item.id) {
+            <tr>
+              <td class="listing-cell">
+                <div
+                  class="thumb"
+                  [style.background-image]="item.images.length ? 'url(' + item.images[0] + ')' : null"
+                >
+                  @if (!item.images.length) { <span>—</span> }
+                </div>
+                <span class="listing-name">{{ item.description }}</span>
+              </td>
+              <td>{{ item.city }}</td>
+              <td class="ref">L-{{ item.id }}</td>
+              <td>
+                <span class="badge {{ item.status.toLowerCase() }}">{{ item.status }}</span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty">
+                Aucune annonce. Clique sur « + New listing » pour commencer. 🏠
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>

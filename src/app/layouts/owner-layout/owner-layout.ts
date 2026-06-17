@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-owner-layout',
   standalone: true,
 
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
 
   templateUrl: './owner-layout.html',
@@ -15,12 +16,13 @@ import { Router } from '@angular/router';
 })
 export class OwnerLayout {
   constructor(private router: Router) {}
+
   logout(): void {
-
     localStorage.removeItem('token');
-
     localStorage.removeItem('role');
-
     this.router.navigate(['/login']);
   }
 }
+
+
+

@@ -1,0 +1,74 @@
+<div class="detail-page">
+
+  <a class="back" routerLink="/app/listings">← Retour aux annonces</a>
+
+  @if (error()) { <div class="alert">{{ error() }}</div> }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    @if (listing(); as ad) {
+
+      <div class="detail-grid">
+
+        <div class="gallery">
+          <div class="main-image"
+               [style.background-image]="property()?.images?.length ? 'url(' + property()!.images[activeImage()] + ')' : null">
+            @if (!property()?.images?.length) { <span class="no-image">Pas d'image</span> }
+          </div>
+          @if ((property()?.images?.length ?? 0) > 1) {
+            <div class="thumbs">
+              @for (img of property()!.images; track $index) {
+                <div class="thumb" [class.active]="$index === activeImage()"
+                     [style.background-image]="'url(' + img + ')'" (click)="setImage($index)"></div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="info">
+          <span class="type-tag {{ ad.type === 'RENT' ? 'rent' : 'sale' }}">
+            {{ ad.type === 'RENT' ? 'À louer' : 'À vendre' }}
+          </span>
+          <h1>{{ ad.title }}</h1>
+          <p class="price">{{ ad.price }} DH{{ ad.type === 'RENT' ? '/mois' : '' }}</p>
+          <p class="loc">📍 {{ property()?.address }}, {{ property()?.city }}</p>
+          <p class="owner">👤 Propriétaire #{{ property()?.ownerId }}</p>
+          @if (ad.description) { <p class="desc">{{ ad.description }}</p> }
+
+          <div class="request-box">
+            @if (requestSent()) {
+              <div class="banner success">✅ Demande envoyée ! Le propriétaire va l'examiner.</div>
+            } @else {
+              <h3>Envoyer une demande</h3>
+              @if (requestError()) { <div class="banner error">{{ requestError() }}</div> }
+              <form [formGroup]="form" (ngSubmit)="sendRequest()">
+                <label class="field">
+                  <span class="label">Type de demande</span>
+                  <select formControlName="type">
+                    <option value="VISIT">Visite</option>
+                    <option value="RENT">Location</option>
+                    <option value="BUY">Achat</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span class="label">Message (optionnel)</span>
+                  <textarea formControlName="message" rows="3" placeholder="Bonjour, je suis intéressé(e)…"></textarea>
+                </label>
+                <button type="submit" class="btn primary" [disabled]="sending()">
+                  {{ sending() ? 'Envoi…' : 'Envoyer la demande' }}
+                </button>
+              </form>
+            }
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  }
+
+</div>

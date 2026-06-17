@@ -30,4 +30,30 @@ export class AuthService {
       data
     );
   }
+
+  getUserId(): number | null {
+
+    const stored = localStorage.getItem('userId');
+    if (stored) {
+      const id = Number(stored);
+      if (Number.isFinite(id)) {
+        return id;
+      }
+    }
+
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const raw = payload.id ?? payload.userId;
+      const id = Number(raw);
+      return Number.isFinite(id) ? id : null;
+    } catch {
+      return null;
+    }
+  }
 }

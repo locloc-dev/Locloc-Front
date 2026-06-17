@@ -61,7 +61,10 @@ export class Login {
             'role',
             response.role
           );
-
+          localStorage.setItem(
+            'userId',
+            String(response.id)
+          );
           const role = response.role;
 
           if (role === 'ADMIN') {

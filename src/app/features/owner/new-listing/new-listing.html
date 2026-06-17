@@ -1,0 +1,71 @@
+<div class="form-page">
+
+  <div class="form-head">
+    <h1>New listing</h1>
+    <p>Create a new rental. It will be reviewed by an admin before going live.</p>
+  </div>
+
+  @if (success()) {
+    <div class="banner success">
+      ✅ Annonce créée ! Elle est en attente de validation (PENDING). Redirection…
+    </div>
+  }
+
+  @if (error()) {
+    <div class="banner error">{{ error() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card">
+
+    <label class="field">
+      <span class="label">Description <i>*</i></span>
+      <textarea
+        formControlName="description"
+        rows="3"
+        placeholder="Ex: Belle villa avec jardin à Hay Riad…"
+      ></textarea>
+      @if (form.get('description')?.touched && form.get('description')?.invalid) {
+        <span class="err-text">Description requise (3 caractères min).</span>
+      }
+    </label>
+
+    <div class="row">
+      <label class="field">
+        <span class="label">Adresse <i>*</i></span>
+        <input formControlName="address" placeholder="Hay Riad" />
+        @if (form.get('address')?.touched && form.get('address')?.invalid) {
+          <span class="err-text">Adresse requise.</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="label">Ville <i>*</i></span>
+        <input formControlName="city" placeholder="Rabat" />
+        @if (form.get('city')?.touched && form.get('city')?.invalid) {
+          <span class="err-text">Ville requise.</span>
+        }
+      </label>
+    </div>
+
+    <label class="field">
+      <span class="label">Images (une URL par ligne)</span>
+      <textarea
+        formControlName="images"
+        rows="4"
+        placeholder="https://images.unsplash.com/photo-1.jpg&#10;https://images.unsplash.com/photo-2.jpg"
+      ></textarea>
+      <span class="hint">Optionnel — colle des liens d'images, une par ligne.</span>
+    </label>
+
+    <div class="actions">
+      <button type="button" class="btn ghost" (click)="cancel()" [disabled]="submitting()">
+        Annuler
+      </button>
+      <button type="submit" class="btn primary" [disabled]="submitting()">
+        {{ submitting() ? 'Création…' : 'Créer l’annonce' }}
+      </button>
+    </div>
+
+  </form>
+
+</div>

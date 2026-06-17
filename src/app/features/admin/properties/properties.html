@@ -1,0 +1,103 @@
+<div class="admin-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Properties</h1>
+      <p>Review, approve and moderate listings.</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn" [class.active]="filter() === 'ALL'" (click)="setFilter('ALL')">
+        All
+      </button>
+      <button class="filter-btn" [class.active]="filter() === 'PENDING'" (click)="setFilter('PENDING')">
+        Pending
+      </button>
+    </div>
+
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-label">APPROUVÉES</span>
+        <span class="stat-value">{{ approvedCount() }}</span>
+        <span class="stat-sub approved">Live</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">EN ATTENTE</span>
+        <span class="stat-value">{{ pendingCount() }}</span>
+        <span class="stat-sub pending">À modérer</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">REJETÉES</span>
+        <span class="stat-value">{{ rejectedCount() }}</span>
+        <span class="stat-sub rejected">Refusées</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">TOTAL</span>
+        <span class="stat-value">{{ properties().length }}</span>
+        <span class="stat-sub">Annonces</span>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Listing</th>
+          <th>Localisation</th>
+          <th>Owner</th>
+          <th>Statut</th>
+          <th class="ta-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (prop of properties(); track prop.id) {
+            <tr>
+              <td class="listing-cell">
+                <div
+                  class="thumb"
+                  [style.background-image]="prop.images.length ? 'url(' + prop.images[0] + ')' : null"
+                >
+                  @if (!prop.images.length) { <span>—</span> }
+                </div>
+                <div class="listing-info">
+                  <span class="listing-name">{{ prop.description }}</span>
+                  <span class="listing-ref">L-{{ prop.id }}</span>
+                </div>
+              </td>
+              <td>{{ prop.address }}, {{ prop.city }}</td>
+              <td class="muted">#{{ prop.ownerId }}</td>
+              <td>
+                <span class="badge {{ prop.status.toLowerCase() }}">{{ prop.status }}</span>
+              </td>
+              <td class="actions-cell">
+                <button class="btn-action approve" [disabled]="prop.status === 'APPROVED'" (click)="approve(prop)">
+                  ✓ Approve
+                </button>
+                <button class="btn-action reject" [disabled]="prop.status === 'REJECTED'" (click)="reject(prop)">
+                  ✕ Reject
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty">Aucune propriété à afficher.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>

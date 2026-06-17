@@ -1,0 +1,20 @@
+.page-header { margin-bottom: 26px; }
+.page-header h1 { font-size: 34px; color: #0f172a; margin-bottom: 6px; }
+.page-header p { color: #64748b; }
+.alert { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; border-radius: 12px; padding: 14px 18px; margin-bottom: 20px; font-weight: bold; }
+.state { color: #64748b; padding: 40px; text-align: center; }
+.table-card { background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 8px 0; overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th { text-align: left; color: #94a3b8; font-size: 13px; letter-spacing: 0.03em; padding: 14px 22px; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+.data-table td { padding: 14px 22px; color: #0f172a; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.ta-right { text-align: right; }
+.title { font-weight: 600; }
+.muted { color: #64748b; }
+.badge { padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.badge.pending { background: #fef9c3; color: #854d0e; }
+.actions-cell { text-align: right; white-space: nowrap; }
+.btn-action { border: none; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+.btn-action.approve { background: #16a34a; color: white; }
+.btn-action.reject { background: white; color: #dc2626; border: 1px solid #fecaca; }
+.empty { text-align: center; color: #94a3b8; padding: 36px; }

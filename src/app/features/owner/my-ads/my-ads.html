@@ -1,0 +1,50 @@
+<div class="ads-page">
+
+  <div class="page-head">
+    <div>
+      <h1>Mes annonces</h1>
+      <p>Tes annonces publiées (prix, location/vente) et leur statut de modération.</p>
+    </div>
+    <a class="btn primary" routerLink="/owner/new-ad">+ Publier une annonce</a>
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Prix</th>
+          <th>Type</th>
+          <th>Réf</th>
+          <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (ad of ads(); track ad.id) {
+            <tr>
+              <td class="title">{{ ad.title }}</td>
+              <td>{{ ad.price }} DH{{ ad.type === 'RENT' ? '/mois' : '' }}</td>
+              <td>{{ ad.type === 'RENT' ? 'Location' : 'Vente' }}</td>
+              <td class="muted">A-{{ ad.id }}</td>
+              <td><span class="badge {{ ad.status.toLowerCase() }}">{{ ad.status }}</span></td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty">Aucune annonce. Clique sur « + Publier une annonce ». 📢</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>

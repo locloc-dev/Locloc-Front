@@ -1,0 +1,43 @@
+<div class="requests-page">
+
+  <div class="page-head">
+    <h1>Mes demandes</h1>
+    <p>Suis l'état de tes demandes de visite, location ou achat.</p>
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Réf</th>
+          <th>Type</th>
+          <th>Statut</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (req of requests(); track req.id) {
+            <tr>
+              <td class="muted">#{{ req.id }}</td>
+              <td>{{ typeLabel(req.type) }}</td>
+              <td><span class="badge {{ req.status.toLowerCase() }}">{{ req.status }}</span></td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty">Aucune demande envoyée. Parcours les annonces et envoie une demande ! 🔍</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>

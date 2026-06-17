@@ -1,11 +1,93 @@
 <div class="dashboard-page">
 
-  <h1>
-    Welcome Admin 👋
-  </h1>
+  <h1>Welcome Admin 👋</h1>
+  <p>Manage users, listings, reports and payments.</p>
 
-  <p>
-    Manage users, listings, reports and payments.
-  </p>
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <!-- STAT CARDS -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+          <span class="stat-label">Total utilisateurs</span>
+          <span class="stat-value">{{ totalUsers() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏠</div>
+        <div class="stat-info">
+          <span class="stat-label">Total propriétés</span>
+          <span class="stat-value">{{ totalProperties() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-info">
+          <span class="stat-label">En attente</span>
+          <span class="stat-value">{{ pendingCount() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-info">
+          <span class="stat-label">Approuvées</span>
+          <span class="stat-value">{{ approvedCount() }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PENDING PROPERTIES -->
+    <div class="panel">
+
+      <div class="panel-header">
+        <h2>Propriétés en attente</h2>
+        <a class="link-btn" routerLink="/admin/properties">Voir tout →</a>
+      </div>
+
+      <table class="data-table">
+
+        <thead>
+        <tr>
+          <th>Ref</th>
+          <th>Description</th>
+          <th>Ville</th>
+          <th>Owner</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          @for (prop of pendingProperties(); track prop.id) {
+            <tr>
+              <td>L-{{ prop.id }}</td>
+              <td>{{ prop.description }}</td>
+              <td>{{ prop.city }}</td>
+              <td>#{{ prop.ownerId }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty">Aucune propriété en attente. 🎉</td>
+            </tr>
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
 
 </div>

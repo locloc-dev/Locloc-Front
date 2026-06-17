@@ -1,0 +1,95 @@
+<div class="admin-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>Users</h1>
+      <p>Manage platform members and their access.</p>
+    </div>
+
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search by name or email…"
+      [ngModel]="search()"
+      (ngModelChange)="search.set($event)"
+    />
+
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="panel">
+
+      <table class="data-table">
+
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+          @for (user of filtered(); track user.id) {
+
+            <tr>
+              <td>{{ user.firstName }} {{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <select
+                  class="role-select"
+                  [ngModel]="user.role"
+                  (ngModelChange)="onRoleChange(user, $event)"
+                >
+                  @for (role of roles; track role) {
+                    <option [value]="role">{{ role }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+    <span class="badge" [class.active]="user.enabled" [class.suspended]="!user.enabled">
+      {{ user.enabled ? 'Active' : 'Suspended' }}
+    </span>
+              </td>
+              <td>{{ user.createdAt | date: 'yyyy-MM-dd' }}</td>
+              <td class="actions">
+                <button class="btn-sm" (click)="toggleStatus(user)">
+                  {{ user.enabled ? 'Suspend' : 'Activate' }}
+                </button>
+                <button class="btn-sm danger" (click)="remove(user)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+
+          } @empty {
+
+            <tr>
+              <td colspan="6" class="empty">
+                No users found.
+              </td>
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  }
+
+</div>

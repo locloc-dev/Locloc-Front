@@ -1,0 +1,76 @@
+<div class="form-page">
+
+  <div class="form-head">
+    <h1>Publier une annonce</h1>
+    <p>Crée une annonce (prix, location/vente) à partir d'une de tes propriétés approuvées. Elle sera vérifiée par un admin.</p>
+  </div>
+
+  @if (success()) {
+    <div class="banner success">
+      ✅ Annonce publiée et envoyée en validation (PENDING). Redirection…
+    </div>
+  }
+
+  @if (error()) {
+    <div class="banner error">{{ error() }}</div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="card">
+
+    <label class="field">
+      <span class="label">Propriété <i>*</i></span>
+      <select formControlName="propertyId">
+        <option [ngValue]="null" disabled>— Choisis une propriété approuvée —</option>
+        @for (prop of approvedProperties(); track prop.id) {
+          <option [ngValue]="prop.id">{{ prop.description }} — {{ prop.city }} (L-{{ prop.id }})</option>
+        }
+      </select>
+      @if (!approvedProperties().length) {
+        <span class="hint">Aucune propriété approuvée. Crée d'abord une propriété et fais-la approuver par l'admin.</span>
+      }
+      @if (form.get('propertyId')?.touched && form.get('propertyId')?.invalid) {
+        <span class="err-text">Choisis une propriété.</span>
+      }
+    </label>
+
+    <label class="field">
+      <span class="label">Titre <i>*</i></span>
+      <input formControlName="title" placeholder="Ex: Villa moderne à louer à Hay Riad" />
+      @if (form.get('title')?.touched && form.get('title')?.invalid) {
+        <span class="err-text">Titre requis (3 caractères min).</span>
+      }
+    </label>
+
+    <div class="row">
+      <label class="field">
+        <span class="label">Prix <i>*</i></span>
+        <input type="number" formControlName="price" placeholder="8000" />
+        @if (form.get('price')?.touched && form.get('price')?.invalid) {
+          <span class="err-text">Prix requis (positif).</span>
+        }
+      </label>
+
+      <label class="field">
+        <span class="label">Type <i>*</i></span>
+        <select formControlName="type">
+          <option value="RENT">Location (RENT)</option>
+          <option value="SALE">Vente (SALE)</option>
+        </select>
+      </label>
+    </div>
+
+    <label class="field">
+      <span class="label">Description</span>
+      <textarea formControlName="description" rows="4" placeholder="Décris l'annonce…"></textarea>
+    </label>
+
+    <div class="actions">
+      <button type="button" class="btn ghost" (click)="cancel()" [disabled]="submitting()">Annuler</button>
+      <button type="submit" class="btn primary" [disabled]="submitting()">
+        {{ submitting() ? 'Publication…' : 'Publier l’annonce' }}
+      </button>
+    </div>
+
+  </form>
+
+</div>

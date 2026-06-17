@@ -1,118 +1,64 @@
 <div class="listings-page">
 
-  <!-- HEADER -->
   <div class="listings-header">
-
-    <div>
-      <p class="small-title">
-        DISCOVER
-      </p>
-
-      <h1>
-        Find your next place
-      </h1>
-
-      <span>
-        12 listings · curated by LocLoc
-      </span>
-    </div>
-
+    <p class="small-title">DISCOVER</p>
+    <h1>Find your next place</h1>
+    <span>{{ filtered().length }} annonce(s) · LocLoc</span>
   </div>
 
-  <!-- FILTERS -->
   <div class="filters">
-
-    <button class="active">
-      All
-    </button>
-
-    <button>
-      Rent
-    </button>
-
-    <button>
-      Buy
-    </button>
-
     <input
       type="text"
-      placeholder="City, neighbourhood, keyword..."
+      placeholder="Titre, ville, mot-clé…"
+      [value]="search()"
+      (input)="onSearch($event)"
     />
-
   </div>
 
-  <!-- CARDS -->
-  <div class="cards-grid">
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
 
-    <div class="property-card">
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
 
-      <img
-        src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
-        alt=""
-      />
+    <div class="cards-grid">
 
-      <div class="card-content">
+      @for (card of filtered(); track card.listing.id) {
 
-        <div class="card-top">
+        <a class="property-card" [routerLink]="['/app/listings', card.listing.id]">
 
-          <h3>Modern apartment</h3>
+          <div
+            class="card-image"
+            [style.background-image]="card.property?.images?.length ? 'url(' + card.property!.images[0] + ')' : null"
+          >
+            <span class="type-tag {{ card.listing.type === 'RENT' ? 'rent' : 'sale' }}">
+              {{ card.listing.type === 'RENT' ? 'À louer' : 'À vendre' }}
+            </span>
+            @if (!card.property?.images?.length) {
+              <span class="no-image">Pas d'image</span>
+            }
+          </div>
 
-          <span>€1850/mo</span>
+          <div class="card-content">
+            <div class="card-top">
+              <h3>{{ card.listing.title }}</h3>
+            </div>
+            <p class="price">{{ card.listing.price }} DH{{ card.listing.type === 'RENT' ? '/mois' : '' }}</p>
+            <p class="loc">📍 {{ card.property?.city || '—' }}</p>
+          </div>
 
-        </div>
+        </a>
 
-        <p>Amsterdam, NL</p>
+      } @empty {
 
-      </div>
+        <div class="state">Aucune annonce disponible pour le moment.</div>
 
-    </div>
-
-    <div class="property-card">
-
-      <img
-        src="https://images.unsplash.com/photo-1494526585095-c41746248156"
-        alt=""
-      />
-
-      <div class="card-content">
-
-        <div class="card-top">
-
-          <h3>Luxury villa</h3>
-
-          <span>€485000</span>
-
-        </div>
-
-        <p>Utrecht, NL</p>
-
-      </div>
+      }
 
     </div>
 
-    <div class="property-card">
-
-      <img
-        src="https://images.unsplash.com/photo-1484154218962-a197022b5858"
-        alt=""
-      />
-
-      <div class="card-content">
-
-        <div class="card-top">
-
-          <h3>Cozy studio</h3>
-
-          <span>€1320/mo</span>
-
-        </div>
-
-        <p>Zandvoort, NL</p>
-
-      </div>
-
-    </div>
-
-  </div>
+  }
 
 </div>

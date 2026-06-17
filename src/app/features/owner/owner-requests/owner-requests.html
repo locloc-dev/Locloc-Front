@@ -1,0 +1,59 @@
+<div class="requests-page">
+
+  <div class="page-head">
+    <h1>Demandes reçues</h1>
+    <p>Les demandes des locataires sur tes annonces. Accepte ou rejette.</p>
+  </div>
+
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  }
+
+  @if (loading()) {
+    <div class="state">Chargement…</div>
+  } @else {
+
+    <div class="table-card">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Annonce</th>
+          <th>Locataire</th>
+          <th>Message</th>
+          <th>Type</th>
+          <th>Statut</th>
+          <th class="ta-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (row of rows(); track row.request.id) {
+            <tr>
+              <td class="title">{{ row.listing.title }}</td>
+              <td>
+                <div class="tenant-name">{{ row.request.tenantName || '—' }}</div>
+                <div class="tenant-email">{{ row.request.tenantEmail }}</div>
+              </td>
+              <td class="message">{{ row.request.message || '—' }}</td>
+              <td>{{ typeLabel(row.request.type) }}</td>
+              <td><span class="badge {{ row.request.status.toLowerCase() }}">{{ row.request.status }}</span></td>
+              <td class="actions-cell">
+                @if (row.request.status === 'PENDING') {
+                  <button class="btn-action accept" (click)="accept(row)">✓ Accepter</button>
+                  <button class="btn-action reject" (click)="reject(row)">✕ Rejeter</button>
+                } @else {
+                  <span class="done">—</span>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty">Aucune demande reçue pour le moment. 📭</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>
