@@ -1,10 +1,22 @@
-<div class="admin-page">
+<div class="review-page">
+
+  <nav class="crumbs">Modération <span>›</span> Annonces à valider</nav>
 
   <div class="page-header">
     <div>
+      <p class="eyebrow">CONSOLE ADMIN</p>
       <h1>Annonces à valider</h1>
-      <p>Approuve ou rejette les annonces publiées par les propriétaires.</p>
+      <p class="sub">Vérifie chaque nouvelle annonce avant publication. Objectif : moins de 24 h de délai.</p>
     </div>
+    <div class="head-actions">
+      <button class="btn ghost" [disabled]="!queueCount()" (click)="approveAll()">✓ Tout approuver</button>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <span class="stat-label">DANS LA FILE</span>
+    <span class="stat-value">{{ queueCount() }}</span>
+    <span class="stat-sub">annonce(s) en attente</span>
   </div>
 
   @if (error()) {
@@ -15,38 +27,163 @@
     <div class="state">Chargement…</div>
   } @else {
 
-    <div class="table-card">
-      <table class="data-table">
-        <thead>
-        <tr>
-          <th>Titre</th>
-          <th>Prix</th>
-          <th>Type</th>
-          <th>Bien</th>
-          <th>Statut</th>
-          <th class="ta-right">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-          @for (ad of listings(); track ad.id) {
-            <tr>
-              <td class="title">{{ ad.title }}</td>
-              <td>{{ ad.price }} DH{{ ad.type === 'RENT' ? '/mois' : '' }}</td>
-              <td>{{ ad.type === 'RENT' ? 'Location' : 'Vente' }}</td>
-              <td class="muted">L-{{ ad.propertyId }}</td>
-              <td><span class="badge pending">{{ ad.status }}</span></td>
-              <td class="actions-cell">
-                <button class="btn-action approve" (click)="approve(ad)">✓ Approve</button>
-                <button class="btn-action reject" (click)="reject(ad)">✕ Reject</button>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="empty">Aucune annonce en attente. 🎉</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="cards">
+      @for (row of rows(); track row.listing.id) {
+        <article class="review-card">
+
+          <div
+            class="thumb"
+            [style.background-image]="cover(row) ? 'url(' + cover(row) + ')' : null"
+          >
+            <span class="thumb-badge">{{ row.listing.type === 'RENT' ? 'À LOUER' : 'À VENDRE' }}</span>
+            @if (!cover(row)) { <span class="thumb-ph">Pas d'image</span> }
+          </div>
+
+          <div class="card-body">
+            <div class="meta-top">
+              <span class="status-pill">● En attente</span>
+              <span class="ref">L-{{ row.listing.propertyId }} · soumise {{ timeAgo(row.listing.submittedAt) }}</span>
+            </div>
+
+            <h3>{{ row.listing.title }}</h3>
+
+            <p class="facts">
+              <span>📍 {{ row.property?.city || '—' }}</span>
+              @if (row.property?.surface) { <span>📐 {{ row.property?.surface }} m²</span> }
+              <span class="price">🏷 {{ row.listing.price }} DH{{ row.listing.type === 'RENT' ? '/mois' : '' }}</span>
+            </p>
+
+            @if (row.listing.description) {
+              <p class="desc">{{ row.listing.description }}</p>
+            }
+
+            <p class="owner-line">👤 Propriétaire #{{ row.property?.ownerId || '—' }}</p>
+          </div>
+
+          <div class="card-side">
+            <ul class="checks">
+              <li [class.ok]="photoCount(row) > 0" [class.warn]="photoCount(row) === 0">
+                {{ photoCount(row) > 0 ? '✓' : '⚠' }} Photos ({{ photoCount(row) }})
+              </li>
+              <li [class.ok]="!!row.property?.address" [class.warn]="!row.property?.address">
+                {{ row.property?.address ? '✓' : '⚠' }} Adresse {{ row.property?.address ? 'vérifiée' : 'manquante' }}
+              </li>
+              <li [class.ok]="!descShort(row)" [class.warn]="descShort(row)">
+                {{ descShort(row) ? '⚠' : '✓' }} Description {{ descShort(row) ? 'courte' : 'complète' }}
+              </li>
+            </ul>
+
+            <button class="btn approve" (click)="approve(row)">✓ Approuver</button>
+            <button class="btn reject" (click)="reject(row)">✕ Rejeter</button>
+            <button class="btn preview" (click)="openPreview(row)">👁 Aperçu</button>
+          </div>
+
+        </article>
+      } @empty {
+        <div class="empty-card">Aucune annonce en attente. 🎉</div>
+      }
+    </div>
+
+  }
+
+  @if (preview(); as row) {
+    <div class="modal-backdrop" (click)="closePreview()">
+      <div class="modal" (click)="$event.stopPropagation()">
+
+        <div
+          class="hero"
+          [style.background-image]="images(row).length ? 'url(' + images(row)[activeImage()] + ')' : null"
+        >
+          <span class="hero-badge">{{ row.listing.type === 'RENT' ? 'À LOUER' : 'À VENDRE' }}</span>
+          <button class="modal-close" (click)="closePreview()">✕</button>
+          <div class="hero-overlay">
+            <h2>{{ row.listing.title }}</h2>
+            <p>📍 {{ row.property?.city || '—' }} · L-{{ row.listing.propertyId }} · soumise {{ timeAgo(row.listing.submittedAt) }}</p>
+          </div>
+          @if (!images(row).length) { <span class="hero-ph">Pas d'image</span> }
+        </div>
+
+        @if (images(row).length > 1) {
+          <div class="thumbs">
+            @for (img of images(row); track img; let i = $index) {
+              <div
+                class="thumb-sm"
+                [class.active]="i === activeImage()"
+                [style.background-image]="'url(' + img + ')'"
+                (click)="activeImage.set(i)"
+              ></div>
+            }
+          </div>
+        }
+
+        <div class="modal-body">
+
+          <div class="price-row">
+            <span class="status-pill">● En attente de validation</span>
+            <span class="big-price">{{ row.listing.price }} DH{{ row.listing.type === 'RENT' ? '/mois' : '' }}</span>
+          </div>
+
+          <div class="attr-grid">
+            <div class="attr">
+              <span class="attr-label">TYPE</span>
+              <span class="attr-value">{{ row.listing.type === 'RENT' ? 'Location' : 'Vente' }}</span>
+            </div>
+            <div class="attr">
+              <span class="attr-label">VILLE</span>
+              <span class="attr-value">{{ row.property?.city || '—' }}</span>
+            </div>
+            @if (row.property?.bedrooms != null) {
+              <div class="attr">
+                <span class="attr-label">CHAMBRES</span>
+                <span class="attr-value">{{ row.property?.bedrooms }}</span>
+              </div>
+            }
+            @if (row.property?.bathrooms != null) {
+              <div class="attr">
+                <span class="attr-label">SALLES DE BAIN</span>
+                <span class="attr-value">{{ row.property?.bathrooms }}</span>
+              </div>
+            }
+            @if (row.property?.surface != null) {
+              <div class="attr">
+                <span class="attr-label">SURFACE</span>
+                <span class="attr-value">{{ row.property?.surface }} m²</span>
+              </div>
+            }
+          </div>
+
+          <h4>Description</h4>
+          <p class="modal-desc">{{ row.listing.description || 'Aucune description fournie.' }}</p>
+
+          <h4>Contrôles de modération</h4>
+          <ul class="checks inline">
+            <li [class.ok]="photoCount(row) > 0" [class.warn]="photoCount(row) === 0">
+              {{ photoCount(row) > 0 ? '✓' : '⚠' }} Photos ({{ photoCount(row) }})
+            </li>
+            <li [class.ok]="!!row.property?.address" [class.warn]="!row.property?.address">
+              {{ row.property?.address ? '✓' : '⚠' }} Adresse {{ row.property?.address ? 'vérifiée' : 'manquante' }}
+            </li>
+            <li [class.ok]="!descShort(row)" [class.warn]="descShort(row)">
+              {{ descShort(row) ? '⚠' : '✓' }} Description {{ descShort(row) ? 'courte' : 'complète' }}
+            </li>
+          </ul>
+
+          <h4>Propriétaire</h4>
+          <div class="owner-card">
+            <div class="owner-avatar">#{{ row.property?.ownerId || '—' }}</div>
+            <div class="owner-info">
+              <strong>Propriétaire #{{ row.property?.ownerId || '—' }}</strong>
+              <span>{{ row.property?.address || 'Adresse non renseignée' }}</span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn reject" (click)="reject(row)">✕ Rejeter</button>
+            <button class="btn approve" (click)="approve(row)">✓ Approuver l'annonce</button>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   }

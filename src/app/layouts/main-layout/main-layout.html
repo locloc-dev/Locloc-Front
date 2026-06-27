@@ -9,21 +9,35 @@
         L
       </div>
 
-      <h2>LocLoc</h2>
+      <div class="brand">
+        <h2>LocLoc</h2>
+        <span>Espace locataire</span>
+      </div>
 
     </div>
 
     <nav class="menu">
 
+      <p class="menu-section">EXPLORER</p>
+
       <a class="menu-item" routerLink="/app/listings" routerLinkActive="active">
-        Listings
+        <span class="ic">🔍</span> Annonces
       </a>
 
       <a class="menu-item" routerLink="/app/requests" routerLinkActive="active">
-        My requests
+        <span class="ic">📨</span> Mes demandes
       </a>
 
     </nav>
+
+    <!-- USER CARD -->
+    <div class="user-card">
+      <div class="uavatar">{{ initial }}</div>
+      <div class="user-info">
+        <strong>{{ fullName }}</strong>
+        <span>Locataire</span>
+      </div>
+    </div>
 
   </aside>
 

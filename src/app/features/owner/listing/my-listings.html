@@ -2,10 +2,10 @@
 
   <div class="page-head">
     <div>
-      <h1>My listings</h1>
-      <p>Manage your published places, drafts, and pending approvals.</p>
+      <h1>Mes biens</h1>
+      <p>Tes propriétés enregistrées. Chaque bien peut recevoir une ou plusieurs annonces.</p>
     </div>
-    <a class="btn primary" routerLink="/owner/new-listing">+ New listing</a>
+    <a class="btn primary" routerLink="/owner/new-listing">+ Créer une annonce</a>
   </div>
 
   @if (error()) {
@@ -18,24 +18,9 @@
 
     <div class="stats">
       <div class="stat">
-        <span class="stat-label">LIVE</span>
-        <span class="stat-value">{{ liveCount() }}</span>
-        <span class="stat-sub approved">Approved</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">PENDING REVIEW</span>
-        <span class="stat-value">{{ pendingCount() }}</span>
-        <span class="stat-sub pending">En attente</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">REJECTED</span>
-        <span class="stat-value">{{ rejectedCount() }}</span>
-        <span class="stat-sub rejected">Rejetées</span>
-      </div>
-      <div class="stat">
-        <span class="stat-label">TOTAL</span>
-        <span class="stat-value">{{ listings().length }}</span>
-        <span class="stat-sub">Annonces</span>
+        <span class="stat-label">BIENS</span>
+        <span class="stat-value">{{ properties().length }}</span>
+        <span class="stat-sub approved">Approuvés automatiquement</span>
       </div>
     </div>
 
@@ -43,14 +28,14 @@
       <table class="data-table">
         <thead>
         <tr>
-          <th>Listing</th>
+          <th>Bien</th>
           <th>Ville</th>
           <th>Réf</th>
           <th>Statut</th>
         </tr>
         </thead>
         <tbody>
-          @for (item of listings(); track item.id) {
+          @for (item of properties(); track item.id) {
             <tr>
               <td class="listing-cell">
                 <div
@@ -70,7 +55,7 @@
           } @empty {
             <tr>
               <td colspan="4" class="empty">
-                Aucune annonce. Clique sur « + New listing » pour commencer. 🏠
+                Aucun bien. Clique sur « + Créer une annonce » pour commencer. 🏠
               </td>
             </tr>
           }

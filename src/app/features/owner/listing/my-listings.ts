@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -13,13 +13,9 @@ import { PropertyResponse } from '../../../core/models/property.model';
   styleUrl: './my-listings.css',
 })
 export class MyListings implements OnInit {
-  listings = signal<PropertyResponse[]>([]);
+  properties = signal<PropertyResponse[]>([]);
   loading = signal(false);
   error = signal<string | null>(null);
-
-  liveCount = computed(() => this.listings().filter((p) => p.status === 'APPROVED').length);
-  pendingCount = computed(() => this.listings().filter((p) => p.status === 'PENDING').length);
-  rejectedCount = computed(() => this.listings().filter((p) => p.status === 'REJECTED').length);
 
   constructor(
     private propertyService: PropertyService,
@@ -36,14 +32,14 @@ export class MyListings implements OnInit {
     this.loading.set(true);
     this.propertyService.getMyProperties(ownerId).subscribe({
       next: (data) => {
-        this.listings.set(data);
+        this.properties.set(data);
         this.loading.set(false);
       },
       error: (err: HttpErrorResponse) => {
         this.error.set(
           err?.status === 403
             ? 'Accès refusé : connecte-toi avec un compte OWNER.'
-            : 'Impossible de charger vos annonces. Backend démarré sur :8080 ?',
+            : 'Impossible de charger vos biens. Backend démarré sur :8080 ?',
         );
         this.loading.set(false);
       },

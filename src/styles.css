@@ -1,1 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand */
+  --navy: #22527b;
+  --navy-700: #1b4263;
+  --blue: #4f90e5;
+  --blue-600: #3f7fd4;
+  --green: #45cdb0;
+  --teal-light: #97cfcb;
+  --pale: #d0dddc;
+
+  /* Neutrals */
+  --bg: #f5f8fa;
+  --surface: #ffffff;
+  --text: #1f2d3d;
+  --muted: #64748b;
+  --border: #e7edf1;
+
+  /* UI */
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 1px 3px rgba(34, 82, 123, 0.06);
+  --shadow: 0 8px 24px rgba(34, 82, 123, 0.08);
+  --shadow-lg: 0 16px 40px rgba(34, 82, 123, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+}
+
+/* Nicer, slimmer scrollbars */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #c5d2da;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #aebeca;
+  background-clip: content-box;
+}
+
+/* Smooth focus ring */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}

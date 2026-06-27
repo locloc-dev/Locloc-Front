@@ -65,6 +65,10 @@ export class Login {
             'userId',
             String(response.id)
           );
+
+          localStorage.setItem('firstName', response.firstName ?? '');
+          localStorage.setItem('lastName', response.lastName ?? '');
+
           const role = response.role;
 
           if (role === 'ADMIN') {

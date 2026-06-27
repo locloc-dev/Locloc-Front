@@ -9,18 +9,63 @@
   <aside class="sidebar" [class.open]="sidebarOpen()">
 
     <div class="logo-section">
-      <div class="logo">A</div>
-      <h2>Admin</h2>
+
+      <div class="logo">
+        L
+      </div>
+
+      <div class="brand">
+        <h2>LocLoc</h2>
+        <span>Espace admin</span>
+      </div>
+
     </div>
 
     <nav class="menu" (click)="closeSidebar()">
-      <a class="menu-item" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
-      <a class="menu-item" routerLink="/admin/users" routerLinkActive="active">Users</a>
-      <a class="menu-item" routerLink="/admin/properties" routerLinkActive="active">Properties</a>
-      <a class="menu-item" routerLink="/admin/reports" routerLinkActive="active">Reports</a>
-      <a class="menu-item" routerLink="/admin/payments" routerLinkActive="active">Payments</a>
-      <a class="menu-item" routerLink="/admin/listings" routerLinkActive="active">Annonces</a>
+
+      <p class="menu-section">GÉRER</p>
+
+      <a
+        class="menu-item"
+        routerLink="/admin/dashboard"
+        routerLinkActive="active"
+      >
+        Dashboard
+      </a>
+
+      <a
+        class="menu-item"
+        routerLink="/admin/users"
+        routerLinkActive="active"
+      >
+        Users
+      </a>
+
+      <a
+        class="menu-item"
+        routerLink="/admin/properties"
+        routerLinkActive="active"
+      >
+        Properties
+      </a>
+
+      <a
+        class="menu-item"
+        routerLink="/admin/listings"
+        routerLinkActive="active"
+      >
+        Annonces
+      </a>
     </nav>
+
+    <!-- USER CARD -->
+    <div class="user-card">
+      <div class="avatar">{{ initial }}</div>
+      <div class="user-info">
+        <strong>{{ fullName }}</strong>
+        <span>Administrateur</span>
+      </div>
+    </div>
 
   </aside>
 
@@ -31,20 +76,43 @@
     <header class="topbar">
 
       <div class="topbar-left">
-        <button class="hamburger" (click)="toggleSidebar()" aria-label="Toggle menu">☰</button>
-        <h1>Admin Dashboard</h1>
+
+        <button
+          class="hamburger"
+          (click)="toggleSidebar()"
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+
+        <h1>
+          Admin Dashboard
+        </h1>
+
       </div>
 
       <div class="topbar-right">
-        <button class="logout-btn" (click)="logout()">Logout</button>
-        <div class="profile">ADMIN</div>
+
+        <button
+          class="logout-btn"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+
+        <div class="profile">
+          ADMIN
+        </div>
+
       </div>
 
     </header>
 
-    <!-- CONTENT (les pages s'affichent ici) -->
+    <!-- CONTENT -->
     <main class="page-content">
+
       <router-outlet></router-outlet>
+
     </main>
 
   </div>

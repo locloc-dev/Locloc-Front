@@ -4,69 +4,56 @@
   <aside class="sidebar">
 
     <div class="logo-section">
-
-      <div class="logo">
-        O
+      <div class="logo">L</div>
+      <div class="brand">
+        <h2>LocLoc</h2>
+        <span>Espace propriétaire</span>
       </div>
-
-      <h2>
-        Owner
-      </h2>
-
     </div>
 
     <nav class="menu">
-      <a class="menu-item" routerLink="/owner/listings" routerLinkActive="active">
-        My listings
-      </a>
-      <a class="menu-item" routerLink="/owner/new-listing" routerLinkActive="active">
-        + New listing
-      </a>
+
+      <p class="menu-section">GÉRER</p>
+
       <a class="menu-item" routerLink="/owner/ads" routerLinkActive="active">
-        Mes annonces
+        <span class="ic">🏠</span> Mes annonces
       </a>
-      <a class="menu-item" routerLink="/owner/new-ad" routerLinkActive="active">
-        + Publier une annonce
+
+      <a class="menu-item" routerLink="/owner/new-listing" routerLinkActive="active">
+        <span class="ic">➕</span> Créer une annonce
       </a>
-      <a
-        class="menu-item"
-        routerLink="/owner/requests"
-        routerLinkActive="active"
-      >
-        Demandes reçues
+
+      <a class="menu-item" routerLink="/owner/requests" routerLinkActive="active">
+        <span class="ic">📨</span> Demandes reçues
       </a>
+
+      <a class="menu-item" routerLink="/owner/listings" routerLinkActive="active">
+        <span class="ic">📄</span> Mes biens
+      </a>
+
     </nav>
+
+    <!-- USER CARD -->
+    <div class="user-card">
+      <div class="avatar">{{ initial }}</div>
+      <div class="user-info">
+        <strong>{{ fullName }}</strong>
+        <span>{{ roleLabel() }}</span>
+      </div>
+    </div>
 
   </aside>
 
   <!-- MAIN -->
   <div class="main-content">
 
-    <!-- TOPBAR -->
     <header class="topbar">
-
-      <h1>
-        Owner Dashboard
-      </h1>
-
+      <h1>Owner Dashboard</h1>
       <div class="topbar-right">
-
-        <button
-          class="logout-btn"
-          (click)="logout()"
-        >
-          Logout
-        </button>
-
-        <div class="profile">
-          OWNER
-        </div>
-
+        <button class="logout-btn" (click)="logout()">Se déconnecter</button>
       </div>
-
     </header>
 
-    <!-- CONTENT -->
     <main class="page-content">
 
       <router-outlet></router-outlet>

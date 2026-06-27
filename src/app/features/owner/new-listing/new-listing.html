@@ -1,71 +1,140 @@
-<div class="form-page">
+<div class="create-page">
 
-  <div class="form-head">
-    <h1>New listing</h1>
-    <p>Create a new rental. It will be reviewed by an admin before going live.</p>
+  <div class="page-head">
+    <p class="eyebrow">NOUVELLE ANNONCE</p>
+    <h1>Publie ton bien</h1>
+    <p class="sub">Remplis les informations ci-dessous. Ton annonce sera vérifiée par notre équipe avant d'être publiée — en général sous 24 h.</p>
   </div>
 
   @if (success()) {
-    <div class="banner success">
-      ✅ Annonce créée ! Elle est en attente de validation (PENDING). Redirection…
-    </div>
+    <div class="banner success">✅ Annonce publiée et envoyée en validation (PENDING). Redirection…</div>
   }
-
   @if (error()) {
     <div class="banner error">{{ error() }}</div>
   }
 
-  <form [formGroup]="form" (ngSubmit)="submit()" class="card">
+  <div class="layout">
 
-    <label class="field">
-      <span class="label">Description <i>*</i></span>
-      <textarea
-        formControlName="description"
-        rows="3"
-        placeholder="Ex: Belle villa avec jardin à Hay Riad…"
-      ></textarea>
-      @if (form.get('description')?.touched && form.get('description')?.invalid) {
-        <span class="err-text">Description requise (3 caractères min).</span>
-      }
-    </label>
+    <!-- FORM -->
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form-card">
 
-    <div class="row">
-      <label class="field">
-        <span class="label">Adresse <i>*</i></span>
-        <input formControlName="address" placeholder="Hay Riad" />
-        @if (form.get('address')?.touched && form.get('address')?.invalid) {
-          <span class="err-text">Adresse requise.</span>
-        }
-      </label>
+      <section class="block">
+        <div class="block-head"><span class="step">1</span><h2>Les essentiels</h2></div>
 
-      <label class="field">
-        <span class="label">Ville <i>*</i></span>
-        <input formControlName="city" placeholder="Rabat" />
-        @if (form.get('city')?.touched && form.get('city')?.invalid) {
-          <span class="err-text">Ville requise.</span>
-        }
-      </label>
-    </div>
+        <label class="field">
+          <span class="label">Titre de l'annonce <i>*</i></span>
+          <input formControlName="title" placeholder="Ex : Belle villa avec jardin à Hay Riad" />
+          <span class="hint">Court et précis — c'est la première chose que voient les visiteurs.</span>
+        </label>
 
-    <label class="field">
-      <span class="label">Images (une URL par ligne)</span>
-      <textarea
-        formControlName="images"
-        rows="4"
-        placeholder="https://images.unsplash.com/photo-1.jpg&#10;https://images.unsplash.com/photo-2.jpg"
-      ></textarea>
-      <span class="hint">Optionnel — colle des liens d'images, une par ligne.</span>
-    </label>
+        <label class="field">
+          <span class="label">Description <i>*</i></span>
+          <textarea formControlName="description" rows="4" placeholder="Décris ton bien : pièces, état, quartier, points forts…"></textarea>
+        </label>
 
-    <div class="actions">
-      <button type="button" class="btn ghost" (click)="cancel()" [disabled]="submitting()">
-        Annuler
-      </button>
-      <button type="submit" class="btn primary" [disabled]="submitting()">
-        {{ submitting() ? 'Création…' : 'Créer l’annonce' }}
-      </button>
-    </div>
+        <div class="row">
+          <div class="field">
+            <span class="label">Type d'offre <i>*</i></span>
+            <div class="toggle">
+              <button type="button" [class.active]="vm().type === 'RENT'" (click)="form.patchValue({ type: 'RENT' })">À louer</button>
+              <button type="button" [class.active]="vm().type === 'SALE'" (click)="form.patchValue({ type: 'SALE' })">À vendre</button>
+            </div>
+          </div>
 
-  </form>
+          <label class="field">
+            <span class="label">{{ vm().type === 'RENT' ? 'Loyer mensuel' : 'Prix' }} <i>*</i></span>
+            <div class="price-input">
+              <span>DH</span>
+              <input type="number" formControlName="price" placeholder="0" />
+            </div>
+            <span class="hint">En dirhams (MAD){{ vm().type === 'RENT' ? ' par mois' : '' }}.</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="block-head"><span class="step">2</span><h2>Localisation</h2></div>
+        <div class="row">
+          <label class="field">
+            <span class="label">Adresse <i>*</i></span>
+            <input formControlName="address" placeholder="Hay Riad" />
+          </label>
+          <label class="field">
+            <span class="label">Ville <i>*</i></span>
+            <input formControlName="city" placeholder="Rabat" />
+          </label>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="block-head"><span class="step">3</span><h2>Caractéristiques</h2></div>
+        <div class="row3">
+          <label class="field">
+            <span class="label">Chambres</span>
+            <input type="number" formControlName="bedrooms" placeholder="3" />
+          </label>
+          <label class="field">
+            <span class="label">Salles de bain</span>
+            <input type="number" formControlName="bathrooms" placeholder="2" />
+          </label>
+          <label class="field">
+            <span class="label">Surface (m²)</span>
+            <input type="number" formControlName="surface" placeholder="120" />
+          </label>
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="block-head"><span class="step">4</span><h2>Photos</h2></div>
+        <label class="field">
+          <span class="label">Images (une URL par ligne)</span>
+          <textarea formControlName="images" rows="3" placeholder="https://images.unsplash.com/photo-1.jpg&#10;https://images.unsplash.com/photo-2.jpg"></textarea>
+          <span class="hint">Colle des liens d'images, une par ligne. La première sert de couverture.</span>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="btn ghost" (click)="cancel()" [disabled]="submitting()">Annuler</button>
+        <button type="submit" class="btn primary" [disabled]="submitting()">
+          {{ submitting() ? 'Publication…' : 'Publier l’annonce' }}
+        </button>
+      </div>
+
+    </form>
+
+    <!-- LIVE PREVIEW -->
+    <aside class="preview">
+      <p class="preview-label">APERÇU EN DIRECT</p>
+
+      <div class="preview-card">
+        <div class="preview-img" [style.background-image]="firstImage() ? 'url(' + firstImage() + ')' : null">
+          <span class="ptag">{{ vm().type === 'RENT' ? 'À LOUER' : 'À VENDRE' }}</span>
+          @if (!firstImage()) { <span class="ph">Ta photo de couverture</span> }
+        </div>
+        <div class="preview-body">
+          <div class="preview-top">
+            <h3>{{ vm().title || 'Titre de ton annonce' }}</h3>
+            <span class="preview-price">{{ vm().price ? (vm().price + ' DH') : '' }}</span>
+          </div>
+          <p class="preview-loc">📍 {{ vm().city || 'Ville' }}{{ vm().address ? (', ' + vm().address) : '' }}</p>
+          <div class="preview-feats">
+            <span>🛏 {{ vm().bedrooms || '—' }} ch.</span>
+            <span>🛁 {{ vm().bathrooms || '—' }} sdb</span>
+            <span>📐 {{ vm().surface || '—' }} m²</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tips">
+        <p class="tips-title">💡 Pour une annonce qui marche</p>
+        <ul>
+          <li>Mets au moins 3 photos lumineuses.</li>
+          <li>Sois précis sur le quartier et les transports.</li>
+          <li>Indique ce qui est inclus (meublé, chauffage…).</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
 
 </div>

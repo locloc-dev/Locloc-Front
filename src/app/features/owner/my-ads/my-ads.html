@@ -5,7 +5,7 @@
       <h1>Mes annonces</h1>
       <p>Tes annonces publiées (prix, location/vente) et leur statut de modération.</p>
     </div>
-    <a class="btn primary" routerLink="/owner/new-ad">+ Publier une annonce</a>
+    <a class="btn primary" routerLink="/owner/new-listing">+ Créer une annonce</a>
   </div>
 
   @if (error()) {
@@ -38,7 +38,7 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" class="empty">Aucune annonce. Clique sur « + Publier une annonce ». 📢</td>
+              <td colspan="5" class="empty">Aucune annonce. Clique sur « + Créer une annonce ». 📢</td>
             </tr>
           }
         </tbody>

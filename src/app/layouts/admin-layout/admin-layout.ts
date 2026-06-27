@@ -1,7 +1,8 @@
 import {Component, signal} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive} from '@angular/router';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
@@ -14,7 +15,18 @@ import { Router } from '@angular/router';
 export class AdminLayout {
   sidebarOpen = signal(false);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+  ) {}
+
+  get fullName(): string {
+    return this.auth.getFullName();
+  }
+
+  get initial(): string {
+    return (this.fullName.trim()[0] || 'A').toUpperCase();
+  }
 
   toggleSidebar(): void {
     this.sidebarOpen.update((open) => !open);
@@ -25,8 +37,7 @@ export class AdminLayout {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

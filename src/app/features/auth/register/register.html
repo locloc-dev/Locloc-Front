@@ -1,355 +1,111 @@
 <div class="register-page">
 
-  <!-- LEFT SIDE -->
+  <!-- LEFT SIDE (image naturelle) -->
   <div class="left-section">
-
     <div class="overlay"></div>
-
     <div class="branding">
-
-      <span class="small-title">
-        LOCLOC
-      </span>
-
-      <h1>
-        Find a place that
-        <br>
-        actually feels like home.
-      </h1>
-
+      <span class="small-title">LOCLOC</span>
+      <h1>Find a place that<br>actually feels like home.</h1>
     </div>
-
   </div>
 
   <!-- RIGHT SIDE -->
   <div class="right-section">
-
     <div class="register-box">
 
       <!-- LOGO -->
       <div class="logo-section">
-
-        <div class="logo">
-          L
-        </div>
-
-        <div>
-
-          <h2>
-            LocLoc
-          </h2>
-
-          <p>
-            Property marketplace
-          </p>
-
-        </div>
-
+        <div class="logo">L</div>
+        <h2 class="brand"><span class="b-blue">Loc</span><span class="b-green">Loc</span></h2>
       </div>
 
-      <!-- TITLE -->
-      <h1 class="title">
-        Create your account
-      </h1>
+      <h1 class="title">Crée ton compte</h1>
+      <p class="subtitle">Rejoins les locataires, acheteurs et propriétaires.</p>
 
-      <p class="subtitle">
-        Join thousands of renters, buyers, and owners.
-      </p>
-      <!-- ROLE SELECTION -->
-
+      <!-- ROLE -->
       <div class="role-selection">
-
-        <p class="role-title">
-          I want to:
-        </p>
-
+        <p class="role-title">Je veux :</p>
         <div class="role-buttons">
-
-          <button
-            type="button"
-            class="role-btn"
-            [class.active-role]="selectedRole === 'TENANT'"
-            (click)="selectRole('TENANT')"
-          >
-            Rent / Buy
+          <button type="button" class="role-btn" [class.active-role]="selectedRole === 'TENANT'" (click)="selectRole('TENANT')">
+            Louer / Acheter
           </button>
-
-          <button
-            type="button"
-            class="role-btn"
-            [class.active-role]="selectedRole === 'OWNER'"
-            (click)="selectRole('OWNER')"
-          >
-            List Property
+          <button type="button" class="role-btn" [class.active-role]="selectedRole === 'OWNER'" (click)="selectRole('OWNER')">
+            Publier un bien
           </button>
-
         </div>
-
       </div>
+
       <!-- TABS -->
       <div class="tabs">
-
-        <button
-          type="button"
-          (click)="goToLogin()"
-        >
-          Sign in
-        </button>
-
-        <button
-          type="button"
-          class="active"
-        >
-          Register
-        </button>
-
+        <button type="button" (click)="goToLogin()">Connexion</button>
+        <button type="button" class="active">Inscription</button>
       </div>
 
       <!-- FORM -->
-      <form
-        [formGroup]="registerForm"
-        (ngSubmit)="onSubmit()"
-      >
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-        <!-- FIRST NAME + LAST NAME -->
         <div class="row">
-
-          <!-- FIRST NAME -->
           <div class="input-group">
-
-            <label>
-              First name
-            </label>
-
-            <input
-              type="text"
-              placeholder="John"
-              formControlName="firstName"
-            />
-
-            <div
-              class="error"
-              *ngIf="
-                registerForm.get('firstName')?.touched &&
-                registerForm.get('firstName')?.invalid
-              "
-            >
-
-              <span
-                *ngIf="
-                  registerForm.get('firstName')?.errors?.['required']
-                "
-              >
-                First name is required
-              </span>
-
+            <label>Prénom</label>
+            <input type="text" placeholder="John" formControlName="firstName" />
+            <div class="error" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
+              <span *ngIf="registerForm.get('firstName')?.errors?.['required']">Prénom requis</span>
             </div>
-
           </div>
 
-          <!-- LAST NAME -->
           <div class="input-group">
-
-            <label>
-              Last name
-            </label>
-
-            <input
-              type="text"
-              placeholder="Doe"
-              formControlName="lastName"
-            />
-
-            <div
-              class="error"
-              *ngIf="
-                registerForm.get('lastName')?.touched &&
-                registerForm.get('lastName')?.invalid
-              "
-            >
-
-              <span
-                *ngIf="
-                  registerForm.get('lastName')?.errors?.['required']
-                "
-              >
-                Last name is required
-              </span>
-
+            <label>Nom</label>
+            <input type="text" placeholder="Doe" formControlName="lastName" />
+            <div class="error" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
+              <span *ngIf="registerForm.get('lastName')?.errors?.['required']">Nom requis</span>
             </div>
-
           </div>
-
         </div>
 
-        <!-- EMAIL -->
         <div class="input-group">
-
-          <label>
-            Email
-          </label>
-
-          <input
-            type="email"
-            placeholder="Enter your email"
-            formControlName="email"
-          />
-
-          <div
-            class="error"
-            *ngIf="
-              registerForm.get('email')?.touched &&
-              registerForm.get('email')?.invalid
-            "
-          >
-
-            <span
-              *ngIf="
-                registerForm.get('email')?.errors?.['required']
-              "
-            >
-              Email is required
-            </span>
-
-            <span
-              *ngIf="
-                registerForm.get('email')?.errors?.['email']
-              "
-            >
-              Invalid email format
-            </span>
-
+          <label>Email</label>
+          <input type="email" placeholder="alex@locloc.fr" formControlName="email" />
+          <div class="error" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email requis</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Format email invalide</span>
           </div>
-
         </div>
 
-        <!-- PASSWORD -->
         <div class="input-group">
-
-          <label>
-            Password
-          </label>
-
+          <label>Mot de passe</label>
           <div class="password-wrapper">
-
-            <input
-              [type]="showPassword ? 'text' : 'password'"
-              placeholder="Enter your password"
-              formControlName="password"
-            />
-
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="showPassword = !showPassword"
-            >
-
+            <input [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" formControlName="password" />
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
               {{ showPassword ? '🙈' : '👁️' }}
-
             </button>
-
           </div>
-
-          <div
-            class="error"
-            *ngIf="
-              registerForm.get('password')?.touched &&
-              registerForm.get('password')?.invalid
-            "
-          >
-
-            <span
-              *ngIf="
-                registerForm.get('password')?.errors?.['required']
-              "
-            >
-              Password is required
-            </span>
-
-            <span
-              *ngIf="
-                registerForm.get('password')?.errors?.['minlength']
-              "
-            >
-              Password must be at least 6 characters
-            </span>
-
+          <div class="error" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            <span *ngIf="registerForm.get('password')?.errors?.['required']">Mot de passe requis</span>
+            <span *ngIf="registerForm.get('password')?.errors?.['minlength']">6 caractères minimum</span>
           </div>
-
         </div>
 
-        <!-- CONFIRM PASSWORD -->
         <div class="input-group">
-
-          <label>
-            Confirm password
-          </label>
-
+          <label>Confirmer le mot de passe</label>
           <div class="password-wrapper">
-
-          <input
-            [type]="showConfirmPassword ? 'text' : 'password'"
-            placeholder="Confirm your password"
-            formControlName="confirmPassword"
-          />
-
-          <button
-            type="button"
-            class="toggle-password"
-            (click)="showConfirmPassword = !showConfirmPassword"
-          >
-
-            {{ showConfirmPassword ? '🙈' : '👁️' }}
-
-          </button>
-
-        </div>
-
-          <div
-            class="error"
-            *ngIf="
-              registerForm.get('confirmPassword')?.touched &&
-              registerForm.get('confirmPassword')?.invalid
-            "
-          >
-
-            <span
-              *ngIf="
-                registerForm.get('confirmPassword')?.errors?.['required']
-              "
-            >
-              Confirm password is required
-            </span>
-
+            <input [type]="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••" formControlName="confirmPassword" />
+            <button type="button" class="toggle-password" (click)="showConfirmPassword = !showConfirmPassword">
+              {{ showConfirmPassword ? '🙈' : '👁️' }}
+            </button>
           </div>
-
+          <div class="error" *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid">
+            <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmation requise</span>
+          </div>
         </div>
 
-        <!-- HIDDEN ROLE -->
-        <input
-          type="hidden"
-          formControlName="role"
-        />
+        <input type="hidden" formControlName="role" />
 
-        <!-- SUBMIT -->
-        <button
-          type="submit"
-          class="register-btn"
-          [disabled]="isLoading"
-        >
-
-          {{
-            isLoading
-              ? 'Creating account...'
-              : 'Create account'
-          }}
-
+        <button type="submit" class="register-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Création...' : 'Créer le compte' }}
         </button>
-
       </form>
 
     </div>
-
   </div>
 
 </div>

@@ -28,162 +28,79 @@
 
       <!-- LOGO -->
       <div class="logo-section">
-
-        <div class="logo">
-          L
-        </div>
-
-        <div>
-
-          <h2>
-            LocLoc
-          </h2>
-
-          <p>
-            Property marketplace
-          </p>
-
-        </div>
-
+        <div class="logo">L</div>
+        <h2 class="brand"><span class="b-blue">Loc</span><span class="b-green">Loc</span></h2>
       </div>
 
-      <!-- TITLE -->
-      <h1 class="welcome-title">
-        Welcome back
-      </h1>
+      <h1 class="welcome-title">Bon retour !</h1>
+      <p class="subtitle">Connecte-toi pour gérer tes annonces et tes demandes.</p>
 
-      <p class="subtitle">
-        Sign in to manage your listings, requests, and deals.
-      </p>
-
-      <!-- TABS -->
-      <div class="tabs">
-
-        <button type="button" class="active">
-          Sign in
-        </button>
-
-        <button type="button" (click)="goToRegister()">
-          Register
-        </button>
-
-      </div>
-
-      <!-- FORM -->
-      <form
-        [formGroup]="loginForm"
-        (ngSubmit)="onSubmit()"
-      >
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
         <!-- EMAIL -->
         <div class="input-group">
-
-          <label>Email</label>
-
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="Enter your email"
-          />
-
-          <div
-            class="error"
-            *ngIf="
-              loginForm.get('email')?.touched &&
-              loginForm.get('email')?.invalid
-            "
-          >
-
-            <span
-              *ngIf="
-                loginForm.get('email')?.errors?.['required']
-              "
-            >
-              Email is required
-            </span>
-
-            <span
-              *ngIf="
-                loginForm.get('email')?.errors?.['email']
-              "
-            >
-              Invalid email format
-            </span>
-
+          <label>Adresse e-mail</label>
+          <div class="input-icon">
+            <span class="icon">✉️</span>
+            <input type="email" formControlName="email" placeholder="Email" />
           </div>
-
+          <div class="error" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email requis</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Format email invalide</span>
+          </div>
         </div>
 
         <!-- PASSWORD -->
         <div class="input-group">
-
-          <label>Password</label>
-
-          <div class="password-wrapper">
-
+          <label>Mot de passe</label>
+          <div class="input-icon">
+            <span class="icon">🔒</span>
             <input
               [type]="showPassword ? 'text' : 'password'"
               formControlName="password"
-              placeholder="Enter your password"
+              placeholder="••••••••"
             />
-
-            <button
-              type="button"
-              class="toggle-password"
-              (click)="showPassword = !showPassword"
-            >
-
+            <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
               {{ showPassword ? '🙈' : '👁️' }}
-
             </button>
-
           </div>
-
-          <div
-            class="error"
-            *ngIf="
-              loginForm.get('password')?.touched &&
-              loginForm.get('password')?.invalid
-            "
-          >
-
-            <span
-              *ngIf="
-                loginForm.get('password')?.errors?.['required']
-              "
-            >
-              Password is required
-            </span>
-
+          <div class="error" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">Mot de passe requis</span>
           </div>
-
         </div>
 
-        <!-- FORGOT PASSWORD -->
-        <div class="forgot-password">
-
-          <a href="#">
-            Forgot?
-          </a>
-
+        <div class="form-row">
+          <label class="remember">
+            <input type="checkbox" />
+            <span>Se souvenir de moi</span>
+          </label>
+          <a class="forgot" href="#">Mot de passe oublié ?</a>
         </div>
 
         <!-- SUBMIT -->
-        <button
-          type="submit"
-          class="login-btn"
-          [disabled]="isLoading"
-        >
-
-          {{
-            isLoading
-              ? 'Signing in...'
-              : 'Sign in'
-          }}
-
+        <button type="submit" class="login-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Connexion...' : 'Se connecter' }}
         </button>
 
       </form>
+
+      <div class="divider"><span>ou</span></div>
+
+      <button type="button" class="google-btn">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.1 0 24 0 14.6 0 6.5 5.4 2.6 13.3l7.8 6c1.9-5.6 7.1-9.8 13.6-9.8z"/>
+          <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.5 3-2.2 5.5-4.7 7.2l7.3 5.7c4.3-4 6.7-9.9 6.7-17.4z"/>
+          <path fill="#FBBC05" d="M10.4 28.3c-.5-1.5-.8-3-.8-4.3s.3-2.9.8-4.3l-7.8-6C.9 16.9 0 20.3 0 24s.9 7.1 2.6 10.3l7.8-6z"/>
+          <path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.3-5.7c-2 1.4-4.6 2.2-7.7 2.2-6.5 0-11.7-4.2-13.6-9.8l-7.8 6C6.5 42.6 14.6 48 24 48z"/>
+        </svg>
+        Continuer avec Google
+      </button>
+
+      <!-- SIGNUP -->
+      <p class="signup">
+        Pas encore de compte ?
+        <a (click)="goToRegister()">Créer un compte</a>
+      </p>
 
     </div>
 

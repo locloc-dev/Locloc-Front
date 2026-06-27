@@ -42,11 +42,6 @@ export const routes: Routes = [
           import('./features/owner/my-ads/my-ads').then(m => m.MyAds)
       },
       {
-        path: 'new-ad',
-        loadComponent: () =>
-          import('./features/owner/new-listing-ad/new-listing-ad').then(m => m.NewListingAd)
-      },
-      {
         path: '',
         redirectTo: 'listings',
         pathMatch: 'full'

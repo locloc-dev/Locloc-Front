@@ -8,7 +8,7 @@
   display: flex;
   height: 100vh;
 
-  font-family: Arial, sans-serif;
+  font-family: inherit;
 }
 
 /* SIDEBAR */
@@ -16,12 +16,49 @@
 .sidebar {
   width: 260px;
 
-  background: #ffffff;
+  background: linear-gradient(180deg, #22527b 0%, #1b4263 100%);
 
-  border-right: 1px solid #e5e7eb;
+  padding: 26px 18px;
 
-  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
 }
+
+.brand h2 { font-size: 20px; font-weight: 800; line-height: 1.1; color: #ffffff; }
+.brand span { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+
+.menu-section {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 8px 8px 6px;
+}
+.menu-item .ic { margin-right: 8px; }
+
+.user-card {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 8px 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.uavatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.user-info { display: flex; flex-direction: column; min-width: 0; }
+.user-info strong { font-size: 14px; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-info span { font-size: 12px; color: rgba(255, 255, 255, 0.6); }
 
 .logo-section {
   display: flex;
@@ -37,8 +74,8 @@
 
   border-radius: 12px;
 
-  background: #0f172a;
-  color: white;
+  background: #ffffff;
+  color: #22527B;
 
   display: flex;
   justify-content: center;
@@ -49,6 +86,7 @@
 
 .logo-section h2 {
   font-size: 28px;
+  color: #ffffff;
 }
 
 /* MENU */
@@ -69,15 +107,17 @@
   transition: 0.2s;
 
   font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .menu-item:hover {
-  background: #f3f4f6;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .menu-item.active {
-  background: #eef2ff;
-  color: #3454ff;
+  background: #ffffff;
+  color: #22527B;
 }
 
 /* MAIN */
@@ -118,7 +158,7 @@
 
 .topbar input:focus {
   outline: none;
-  border-color: #3454ff;
+  border-color: #4f90e5;
 }
 
 .profile {
@@ -145,7 +185,7 @@
 
   padding: 30px;
 
-  background: #faf8f5;
+  background: #f5f8fa;
 
   overflow-y: auto;
 }

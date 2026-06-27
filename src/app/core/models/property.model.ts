@@ -8,7 +8,11 @@ export interface PropertyResponse {
   city: string;
   ownerId: number;
   status: PropertyStatus;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  surface?: number | null;
   images: string[];
+
 }
 
 /** Matches the backend PropertyRequest DTO */
@@ -16,6 +20,9 @@ export interface PropertyRequest {
   description: string;
   address: string;
   city: string;
+  bedrooms?: number | null;
+  bathrooms?: number | null;
+  surface?: number | null;
   images: string[];
 }
 
