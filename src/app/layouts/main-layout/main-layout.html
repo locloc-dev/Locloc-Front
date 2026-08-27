@@ -1,81 +1,98 @@
-<div class="layout-container">
+<div class="app-shell">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <header class="navbar">
 
-    <div class="logo-section">
+    <a class="brand" routerLink="/app/listings">
+      <div class="logo">L</div>
+      <span class="brand-name"><span class="b-blue">Loc</span><span class="b-green">Loc</span></span>
+    </a>
 
-      <div class="logo">
-        L
-      </div>
-
-      <div class="brand">
-        <h2>LocLoc</h2>
-        <span>Espace locataire</span>
-      </div>
-
-    </div>
-
-    <nav class="menu">
-
-      <p class="menu-section">EXPLORER</p>
-
-      <a class="menu-item" routerLink="/app/listings" routerLinkActive="active">
-        <span class="ic">🔍</span> Annonces
-      </a>
-
-      <a class="menu-item" routerLink="/app/requests" routerLinkActive="active">
-        <span class="ic">📨</span> Mes demandes
-      </a>
-
+    <nav class="nav-links">
+      <a routerLink="/app/listings" routerLinkActive="active">Annonces</a>
+      <a *ngIf="isLoggedIn" routerLink="/app/requests" routerLinkActive="active">Mes demandes</a>
     </nav>
 
-    <!-- USER CARD -->
-    <div class="user-card">
-      <div class="uavatar">{{ initial }}</div>
-      <div class="user-info">
-        <strong>{{ fullName }}</strong>
-        <span>Locataire</span>
-      </div>
-    </div>
+    <div class="nav-right">
 
-  </aside>
+      <button class="publish-btn" (click)="publish()">
+        <span class="plus">＋</span> Publier une annonce
+      </button>
 
-  <!-- MAIN CONTENT -->
-  <div class="main-content">
+      <button *ngIf="!isLoggedIn" class="login-btn" (click)="login()">
+        Se connecter
+      </button>
 
-    <!-- HEADER -->
-    <header class="topbar">
+      <div *ngIf="isLoggedIn" class="user-menu">
 
-      <input
-        type="text"
-        placeholder="Search listings..."
-      />
-
-      <div class="topbar-right">
-
-        <button
-          class="logout-btn"
-          (click)="logout()"
-        >
-          Logout
+        <button class="avatar-btn" (click)="toggleMenu()">
+          <span class="avatar">{{ initial }}</span>
+          <span class="chevron">▾</span>
         </button>
 
-        <div class="profile">
-          USER
+        <div class="dropdown" *ngIf="menuOpen">
+
+          <div class="dropdown-head">
+            <div class="avatar big">{{ initial }}</div>
+            <div class="dropdown-id">
+              <strong>{{ fullName }}</strong>
+              <span>{{ email }}</span>
+              <span class="role-badge">{{ roleLabel }}</span>
+            </div>
+          </div>
+
+          <div class="dropdown-links">
+
+            <a routerLink="/app/profile" (click)="closeMenu()">👤 Mon profil</a>
+
+            <a *ngIf="role === 'TENANT'" routerLink="/app/requests" (click)="closeMenu()">📨 Mes demandes</a>
+
+            <ng-container *ngIf="role === 'OWNER'">
+              <a routerLink="/owner/dashboard" (click)="closeMenu()">📊 Tableau de bord</a>
+              <a routerLink="/owner/listings" (click)="closeMenu()">🏠 Mes annonces</a>
+              <a routerLink="/owner/new-listing" (click)="closeMenu()">➕ Publier une annonce</a>
+            </ng-container>
+
+            <a *ngIf="role === 'ADMIN'" routerLink="/admin/dashboard" (click)="closeMenu()">🛠️ Administration</a>
+
+          </div>
+
+          <button class="dropdown-logout" (click)="logout()">Déconnexion</button>
+
         </div>
 
       </div>
 
-    </header>
+    </div>
 
-    <!-- PAGE CONTENT -->
-    <main class="page-content">
+  </header>
 
-      <router-outlet></router-outlet>
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
 
-    </main>
+  <!-- BECOME OWNER MODAL -->
+  <div class="modal-overlay" *ngIf="showOwnerModal" (click)="cancelBecomeOwner()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
 
+      <div class="modal-ic">🔑</div>
+      <h3>Deviens propriétaire</h3>
+      <p>
+        Pour publier une annonce, ton compte passe en <strong>Propriétaire</strong>.
+        Tu pourras publier tes biens et gérer les demandes reçues.
+      </p>
+
+      <div class="modal-error" *ngIf="ownerError">{{ ownerError }}</div>
+
+      <div class="modal-actions">
+        <button class="modal-cancel" (click)="cancelBecomeOwner()" [disabled]="becomingOwner">
+          Annuler
+        </button>
+        <button class="modal-confirm" (click)="confirmBecomeOwner()" [disabled]="becomingOwner">
+          {{ becomingOwner ? 'Un instant…' : 'Devenir propriétaire' }}
+        </button>
+      </div>
+
+    </div>
   </div>
 
 </div>

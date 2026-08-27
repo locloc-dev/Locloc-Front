@@ -9,7 +9,7 @@ import { ListingRequest, ListingResponse } from '../models/listing.model';
   providedIn: 'root',
 })
 export class ListingService {
-  private apiUrl = 'http://localhost:8080/listings';
+  private apiUrl = 'http://localhost:8080/api/listings';
 
   constructor(private http: HttpClient) {}
 
@@ -65,8 +65,6 @@ export class ListingService {
     page = 0,
     size = 50,
   ): Observable<Page<ListingResponse>> {
-    // Always send keyword as a (possibly empty) string: a null keyword makes
-    // PostgreSQL fail on lower(?) ("function lower(bytea) does not exist").
     let params = new HttpParams()
       .set('page', page)
       .set('size', size)

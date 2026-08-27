@@ -131,6 +131,8 @@
 
 /* ERROR */
 .error { margin-top: 7px; color: #ef4444; font-size: 13px; font-weight: 500; }
+/* GOOGLE BUTTON CONTAINER */
+.google-btn-container { display: flex; justify-content: center; }
 
 /* RESPONSIVE */
 @media (max-width: 1000px) {

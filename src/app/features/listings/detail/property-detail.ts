@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { switchMap } from 'rxjs';
@@ -7,6 +7,7 @@ import { switchMap } from 'rxjs';
 import { ListingService } from '../../../core/services/listing.service';
 import { PropertyService } from '../../../core/services/property.service';
 import { RequestService } from '../../../core/services/request.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { ListingResponse } from '../../../core/models/listing.model';
 import { PropertyResponse } from '../../../core/models/property.model';
 import { RequestCreateDTO, RequestType } from '../../../core/models/request.model';
@@ -31,9 +32,11 @@ export class PropertyDetail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private listingService: ListingService,
     private propertyService: PropertyService,
     private requestService: RequestService,
+    private auth: AuthService,
     private fb: FormBuilder,
   ) {
     this.form = this.fb.group({
@@ -79,6 +82,11 @@ export class PropertyDetail implements OnInit {
   sendRequest(): void {
     const listing = this.listing();
     if (!listing || this.form.invalid) return;
+
+    if (!this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
     const dto: RequestCreateDTO = {
       listingId: listing.id,

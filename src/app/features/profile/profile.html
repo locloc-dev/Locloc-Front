@@ -1,0 +1,68 @@
+<div class="profile-page">
+
+  <div class="profile-hero">
+    <div class="p-avatar">{{ initial }}</div>
+    <div class="p-id">
+      <h1>{{ fullName }}</h1>
+      <p class="p-email">{{ email }}</p>
+      <span class="p-role">{{ roleLabel }}</span>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <div class="info-card">
+      <p class="info-label">Nom complet</p>
+      <p class="info-value">{{ fullName }}</p>
+    </div>
+    <div class="info-card">
+      <p class="info-label">Adresse e-mail</p>
+      <p class="info-value">{{ email }}</p>
+    </div>
+    <div class="info-card">
+      <p class="info-label">Type de compte</p>
+      <p class="info-value">{{ roleLabel }}</p>
+    </div>
+  </div>
+
+  <div class="quick-section">
+    <h2>Mon espace</h2>
+    <div class="quick-links">
+
+      <a *ngIf="role === 'TENANT'" class="quick-card" routerLink="/app/requests">
+        <span class="q-ic">📨</span>
+        <div><strong>Mes demandes</strong><span>Suivre mes demandes de location</span></div>
+      </a>
+
+      <ng-container *ngIf="role === 'OWNER'">
+        <a class="quick-card" routerLink="/owner/dashboard">
+          <span class="q-ic">📊</span>
+          <div><strong>Tableau de bord</strong><span>Vue d'ensemble de mon activité</span></div>
+        </a>
+        <a class="quick-card" routerLink="/owner/listings">
+          <span class="q-ic">🏠</span>
+          <div><strong>Mes annonces</strong><span>Gérer mes biens publiés</span></div>
+        </a>
+        <a class="quick-card" routerLink="/owner/new-listing">
+          <span class="q-ic">➕</span>
+          <div><strong>Publier une annonce</strong><span>Déposer un nouveau bien</span></div>
+        </a>
+      </ng-container>
+
+      <a *ngIf="role === 'ADMIN'" class="quick-card" routerLink="/admin/dashboard">
+        <span class="q-ic">🛠️</span>
+        <div><strong>Administration</strong><span>Gérer les utilisateurs et annonces</span></div>
+      </a>
+
+      <a class="quick-card" routerLink="/app/listings">
+        <span class="q-ic">🔍</span>
+        <div><strong>Parcourir les annonces</strong><span>Découvrir les biens disponibles</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <p class="edit-note">
+    ✎ La modification du profil (nom, mot de passe, photo) arrive bientôt.
+  </p>
+
+</div>

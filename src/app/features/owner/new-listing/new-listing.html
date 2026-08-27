@@ -68,6 +68,14 @@
 
       <section class="block">
         <div class="block-head"><span class="step">3</span><h2>Caractéristiques</h2></div>
+        <label class="field">
+          <span class="label">Type de bien <i>*</i></span>
+          <select formControlName="propertyType">
+            @for (t of propertyTypes; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
+        </label>
         <div class="row3">
           <label class="field">
             <span class="label">Chambres</span>

@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs';
 import { PropertyService } from '../../../core/services/property.service';
 import { ListingService } from '../../../core/services/listing.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { PropertyRequest } from '../../../core/models/property.model';
+import {PROPERTY_TYPES, PropertyRequest} from '../../../core/models/property.model';
 import { ListingRequest, ListingType } from '../../../core/models/listing.model';
 
 @Component({
@@ -22,6 +22,8 @@ export class NewListing {
   submitting = signal(false);
   error = signal<string | null>(null);
   success = signal(false);
+
+  propertyTypes = PROPERTY_TYPES;
 
   vm;
   firstImage;
@@ -40,6 +42,7 @@ export class NewListing {
       price: [null, [Validators.required, Validators.min(1)]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
+      propertyType: ['APARTMENT', [Validators.required]],
       bedrooms: [null],
       bathrooms: [null],
       surface: [null],
@@ -70,6 +73,7 @@ export class NewListing {
       description: raw.description.trim(),
       address: raw.address.trim(),
       city: raw.city.trim(),
+      propertyType: raw.propertyType,
       images: this.parseImages(raw.images),
     };
 

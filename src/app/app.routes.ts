@@ -95,11 +95,32 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
   },
 
-  /* TENANT / MAIN APP LAYOUT */
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPassword),
+  },
+
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPassword),
+  },
+
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password').then((m) => m.ForgotPassword),
+  },
+
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password').then((m) => m.ResetPassword),
+  },
+
   {
     path: 'app',
-
-    canActivate: [authGuard],
 
     loadComponent: () => import('./layouts/main-layout/main-layout').then((m) => m.MainLayout),
 
@@ -116,8 +137,21 @@ export const routes: Routes = [
       },
       {
         path: 'requests',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/requests/my-requests').then((m) => m.MyRequests),
+      },
+      {
+        path: 'profile',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/profile/profile').then((m) => m.Profile),
+      },
+      {
+        path: 'profile',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/profile/profile').then((m) => m.Profile),
       },
       {
         path: '',
@@ -130,12 +164,12 @@ export const routes: Routes = [
   /* DEFAULT */
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'app/listings',
     pathMatch: 'full',
   },
 
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: 'app/listings',
   },
 ];

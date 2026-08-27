@@ -1,64 +1,228 @@
-<div class="listings-page">
+<div class="home">
 
-  <div class="listings-header">
-    <p class="small-title">DISCOVER</p>
-    <h1>Find your next place</h1>
-    <span>{{ filtered().length }} annonce(s) · LocLoc</span>
-  </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">LOCLOC · L'IMMOBILIER SIMPLIFIÉ</p>
+      <h1>Trouve ta prochaine <span class="grad">location</span><br />au Maroc.</h1>
+      <p class="hero-sub">
+        Appartements, villas, studios — à louer ou à vendre, partout au Royaume.
+      </p>
 
-  <div class="filters">
-    <input
-      type="text"
-      placeholder="Titre, ville, mot-clé…"
-      [value]="search()"
-      (input)="onSearch($event)"
-    />
-  </div>
+      <!-- Onglets -->
+      <div class="search-tabs">
+        <button
+          class="tab"
+          [class.active]="typeFilter() === 'ALL'"
+          (click)="setType('ALL')"
+        >Tout</button>
+        <button
+          class="tab"
+          [class.active]="typeFilter() === 'RENT'"
+          (click)="setType('RENT')"
+        >🏠 Louer</button>
+        <button
+          class="tab"
+          [class.active]="typeFilter() === 'SALE'"
+          (click)="setType('SALE')"
+        >🔑 Acheter</button>
+      </div>
 
-  @if (error()) {
-    <div class="alert">{{ error() }}</div>
-  }
+      <!-- Barre de recherche -->
+      <div class="hero-search">
+        <select aria-label="Type de bien" (change)="onPropertyType($event)">
+          <option value="ALL">Type de bien</option>
+          @for (t of propertyTypes; track t.value) {
+            <option [value]="t.value">{{ t.label }}</option>
+          }
+        </select>
 
-  @if (loading()) {
-    <div class="state">Chargement…</div>
-  } @else {
+        <span class="search-ic">🔍</span>
 
-    <div class="cards-grid">
+        <input
+          type="text"
+          placeholder="Ville, titre, mot-clé…"
+          [value]="search()"
+          (input)="onSearch($event)"
+        />
 
-      @for (card of filtered(); track card.listing.id) {
+        <button type="button" class="search-btn">Rechercher</button>
+      </div>
 
-        <a class="property-card" [routerLink]="['/app/listings', card.listing.id]">
+      <!-- Badges -->
+      <div class="hero-badges">
+        <span>✓ Annonces vérifiées</span>
+        <span>⚡ Contact direct</span>
+        <span>📍 Tout le Maroc</span>
+      </div>
+    </div>
+  </section>
 
-          <div
-            class="card-image"
-            [style.background-image]="card.property?.images?.length ? 'url(' + card.property!.images[0] + ')' : null"
-          >
-            <span class="type-tag {{ card.listing.type === 'RENT' ? 'rent' : 'sale' }}">
-              {{ card.listing.type === 'RENT' ? 'À louer' : 'À vendre' }}
-            </span>
-            @if (!card.property?.images?.length) {
-              <span class="no-image">Pas d'image</span>
-            }
-          </div>
+  <!-- LISTINGS -->
+  <section class="listings-section">
 
-          <div class="card-content">
-            <div class="card-top">
-              <h3>{{ card.listing.title }}</h3>
+    <div class="section-head">
+      <div>
+        <p class="small-title">MARKETPLACE</p>
+        <h2>Dernières annonces</h2>
+      </div>
+      <span class="count">{{ filtered().length }} annonce(s)</span>
+    </div>
+
+    @if (error()) {
+      <div class="alert">{{ error() }}</div>
+    }
+
+    @if (loading()) {
+      <div class="state">Chargement…</div>
+    } @else {
+
+      <div class="cards-grid">
+
+        @for (card of filtered(); track card.listing.id) {
+
+          <a class="property-card" [routerLink]="['/app/listings', card.listing.id]">
+
+            <div
+              class="card-image"
+              [style.background-image]="card.property?.images?.length ? 'url(' + card.property!.images[0] + ')' : null"
+            >
+              <span class="type-tag {{ card.listing.type === 'RENT' ? 'rent' : 'sale' }}">
+                {{ card.listing.type === 'RENT' ? 'À louer' : 'À vendre' }}
+              </span>
+              @if (!card.property?.images?.length) {
+                <span class="no-image">🏠</span>
+              }
             </div>
-            <p class="price">{{ card.listing.price }} DH{{ card.listing.type === 'RENT' ? '/mois' : '' }}</p>
-            <p class="loc">📍 {{ card.property?.city || '—' }}</p>
-          </div>
 
-        </a>
+            <div class="card-content">
+              <h3>{{ card.listing.title }}</h3>
+              <p class="price">
+                {{ card.listing.price }} DH@if (card.listing.type === 'RENT') {<span class="per">/mois</span>}
+              </p>
+              <p class="loc">📍 {{ card.property?.city || '—' }}</p>
+            </div>
 
-      } @empty {
+          </a>
 
-        <div class="state">Aucune annonce disponible pour le moment.</div>
+        } @empty {
 
-      }
+          <div class="state">Aucune annonce disponible pour le moment.</div>
+
+        }
+
+      </div>
+
+      <div class="see-all">
+        <a class="see-all-btn" routerLink="/app/listings">Voir toutes les annonces</a>
+      </div>
+
+    }
+
+  </section>
+
+  <!-- WHY -->
+  <section class="why">
+    <div class="why-inner">
+
+      <p class="small-title">POURQUOI LOCLOC</p>
+      <h2>La marketplace immobilière nouvelle génération au Maroc</h2>
+      <p class="why-sub">
+        LocLoc met en relation directe propriétaires et locataires : une plateforme
+        digitale, transparente et sans intermédiaire.
+      </p>
+
+      <div class="why-grid">
+
+        <div class="why-card">
+          <div class="why-ic">％</div>
+          <h3>0 % de commission</h3>
+          <p>Aucune commission sur tes locations. Tu traites en direct avec le propriétaire.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-ic">🛡️</div>
+          <h3>Annonces vérifiées</h3>
+          <p>Chaque annonce est modérée avant publication pour garantir la qualité.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-ic">⚡</div>
+          <h3>Publication instantanée</h3>
+          <p>Dépose ton bien en quelques minutes. Visible immédiatement partout au Maroc.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-ic">📍</div>
+          <h3>Tout le Maroc</h3>
+          <p>Casablanca, Rabat, Marrakech, Tanger, Fès, Agadir… une couverture nationale.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-ic">💬</div>
+          <h3>Contact 100 % direct</h3>
+          <p>Discute directement avec le propriétaire par téléphone ou message. Sans intermédiaire.</p>
+        </div>
+
+        <div class="why-card">
+          <div class="why-ic">🔒</div>
+          <h3>Simple et sécurisé</h3>
+          <p>Tes données sont protégées et tes échanges se font en toute confiance.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-card">
+      <h2>Prêt à trouver ton prochain chez-toi ?</h2>
+      <p>Rejoins des milliers de locataires, acheteurs et propriétaires sur LocLoc.</p>
+      <div class="cta-actions">
+        <a class="cta-btn cta-btn--light" routerLink="/register">Créer un compte gratuit</a>
+        <a class="cta-btn cta-btn--ghost" routerLink="/app/listings">Explorer les annonces</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+        <span class="footer-logo"><span class="fb-blue">Loc</span><span class="fb-green">Loc</span></span>
+        <p>La marketplace immobilière qui met en relation locataires, acheteurs et propriétaires, en toute confiance.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explorer</h4>
+        <a routerLink="/app/listings">Louer</a>
+        <a routerLink="/app/listings">Acheter</a>
+        <a routerLink="/app/listings">Publier une annonce</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Entreprise</h4>
+        <a href="#">À propos</a>
+        <a href="#">Carrières</a>
+        <a href="#">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <a href="#">Confidentialité</a>
+        <a href="#">Conditions</a>
+        <a href="#">Cookies</a>
+      </div>
 
     </div>
 
-  }
+    <div class="footer-bottom">
+      <span>© 2026 LocLoc. Tous droits réservés.</span>
+      <span>Fait avec soin au Maroc 🇲🇦</span>
+    </div>
+  </footer>
 
 </div>

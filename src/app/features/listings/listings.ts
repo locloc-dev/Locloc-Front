@@ -6,9 +6,8 @@ import { forkJoin, of } from 'rxjs';
 import { ListingService } from '../../core/services/listing.service';
 import { PropertyService } from '../../core/services/property.service';
 import { ListingResponse } from '../../core/models/listing.model';
-import { PropertyResponse } from '../../core/models/property.model';
+import {PROPERTY_TYPES, PropertyResponse, PropertyType} from '../../core/models/property.model';
 
-/** A listing enriched with its property (for city + image) */
 interface ListingCard {
   listing: ListingResponse;
   property: PropertyResponse | null;
@@ -25,19 +24,46 @@ export class Listings implements OnInit {
   loading = signal(false);
   error = signal<string | null>(null);
   search = signal('');
+  typeFilter = signal<'ALL' | 'RENT' | 'SALE'>('ALL');
+  propertyTypeFilter = signal<'ALL' | PropertyType>('ALL');
+
+  propertyTypes = PROPERTY_TYPES;
+
 
   filtered = computed(() => {
     const q = this.search().trim().toLowerCase();
-    if (!q) {
-      return this.all();
-    }
-    return this.all().filter(
-      (c) =>
-        c.listing.title.toLowerCase().includes(q) ||
-        (c.property?.city ?? '').toLowerCase().includes(q) ||
-        (c.listing.description ?? '').toLowerCase().includes(q),
-    );
+    const type = this.typeFilter();
+    const pType = this.propertyTypeFilter();
+
+    return this.all().filter((c) => {
+      if (type !== 'ALL' && c.listing.type !== type) {
+        return false;
+      }
+
+      if (pType !== 'ALL' && c.property?.propertyType !== pType) {
+        return false;
+      }
+
+      if (q) {
+        return (
+          c.listing.title.toLowerCase().includes(q) ||
+          (c.property?.city ?? '').toLowerCase().includes(q) ||
+          (c.listing.description ?? '').toLowerCase().includes(q)
+        );
+      }
+      return true;
+    });
   });
+
+  setType(type: 'ALL' | 'RENT' | 'SALE'): void {
+    this.typeFilter.set(type);
+  }
+
+  onPropertyType(event: Event): void {
+    this.propertyTypeFilter.set(
+      (event.target as HTMLSelectElement).value as 'ALL' | PropertyType,
+    );
+  }
 
   constructor(
     private listingService: ListingService,
